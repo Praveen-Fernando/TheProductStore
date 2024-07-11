@@ -1,5 +1,6 @@
 package com.app.store.model;
 
+import com.app.store.enums.ProductCategoryTypes;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,7 +17,7 @@ import java.util.Date;
 @Table(name = "Product")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productID;
 
     @Column(name = "productName")
@@ -25,8 +26,9 @@ public class Product {
     @Column(name = "productPrice")
     private double productPrice;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "productCategory")
-    private String productCategory;
+    private ProductCategoryTypes productCategory;
 
     @Column(name = "productAddedDate")
     private Date productAddedDate;

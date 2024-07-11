@@ -1,5 +1,6 @@
 package com.app.store.service;
 
+import com.app.store.enums.ProductCategoryTypes;
 import com.app.store.model.Product;
 import com.app.store.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,11 @@ public class ProductService implements ProductServiceImpl{
 
     @Override
     public Optional<Product> findByProductID(long productID) {
-        System.out.println("Called findByProductID");
         return productRepository.findById(productID);
     }
 
     @Override
-    public List<Product> findByProductCategory(String productCategory) {
+    public List<Product> findByProductCategory(ProductCategoryTypes productCategory) {
         return productRepository.findByProductCategory(productCategory);
     }
 

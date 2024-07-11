@@ -4,15 +4,10 @@ import com.app.store.enums.UserTypes;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@ToString
-@Entity
-@Table(name = "SELLER")
-public class Seller extends User{
+@MappedSuperclass
+public abstract class User {
 
-    @EmbeddedId
+    @Id
     private String user_id;
 
     @Column(name = "username")

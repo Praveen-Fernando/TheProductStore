@@ -1,5 +1,6 @@
 package com.app.store.service;
 
+import com.app.store.enums.ProductCategoryTypes;
 import com.app.store.model.Product;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,6 @@ public interface ProductServiceImpl {
 
     Optional<Product> findByProductID(long productID);
 
-    List<Product> findByProductCategory(String productCategory);
+    List<Product> findByProductCategory(ProductCategoryTypes productCategory);
 
 }

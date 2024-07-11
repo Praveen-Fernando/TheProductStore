@@ -9,8 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "SELLER")
-public class Seller extends User{
+@Table(name = "BUYER")
+public class Buyer extends User{
 
     @EmbeddedId
     private String user_id;

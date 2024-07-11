@@ -1,5 +1,6 @@
 package com.app.store.controller;
 
+import com.app.store.enums.ProductCategoryTypes;
 import com.app.store.model.Product;
 import com.app.store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class ProductController {
 
 
     @GetMapping("/products/{productCategory}")
-    public ResponseEntity<List<Product>> getProductByCategory(@PathVariable(value= "productCategory") String productCategory) {
+    public ResponseEntity<List<Product>> getProductByCategory(@PathVariable(value= "productCategory") ProductCategoryTypes productCategory) {
 
         try {
             List<Product> productCategoryList = new ArrayList<Product>();
@@ -71,6 +72,7 @@ public class ProductController {
 
             return new ResponseEntity<>(productCategoryList, HttpStatus.OK);
         } catch (Exception ex) {
+            System.out.println(ex);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
