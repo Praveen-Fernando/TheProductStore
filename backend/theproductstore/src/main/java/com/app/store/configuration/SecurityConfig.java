@@ -30,14 +30,14 @@ public class SecurityConfig {
 
 
     @Bean
-    public SecurityFilterChain securityFilterChainForAdmin(HttpSecurity httpSecurity) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request.requestMatchers("/auth/**", "/public/**").permitAll()
                         .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                         .requestMatchers("/buyer/**").hasAnyAuthority("BUYER")
                         .requestMatchers("/seller/**").hasAnyAuthority("SELLER")
-                        .requestMatchers("/user/**").hasAnyAuthority("ADMIN", "BUYER","SELLER")
+                        .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "BUYER","SELLER")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -50,7 +50,7 @@ public class SecurityConfig {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return authenticationProvider();
+        return daoAuthenticationProvider;
     }
 
     @Bean
