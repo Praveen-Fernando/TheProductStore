@@ -4,7 +4,6 @@ import com.app.store.enums.ProductCategoryTypes;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Getter
@@ -36,6 +35,6 @@ public class Product {
     @Column(name = "productStock")
     private int productStock;
 
-    @Column(name = "seller")
-    private String seller;
+    @Column(name = "sellerEmail")
+    private String sellerEmail;
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Service
 public interface ProductServiceImpl {
-    List<Product> findAll();
+    List<Product> findAllProducts();
 
     List<Product> findByProductName(String productName);
 

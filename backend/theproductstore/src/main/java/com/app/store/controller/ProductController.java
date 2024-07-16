@@ -5,7 +5,6 @@ import com.app.store.model.Product;
 import com.app.store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,9 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-//@CrossOrigin(origins = "http://localhost:8081")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 public class ProductController {
 
     @Autowired
@@ -27,7 +25,7 @@ public class ProductController {
         try {
             List<Product> productList = new ArrayList<Product>();
             if (productName == null) {
-                productService.findAll().forEach(productList::add);
+                productService.findAllProducts().forEach(productList::add);
             } else {
                 productService.findByProductName(productName).forEach(productList::add);
             }
@@ -61,7 +59,7 @@ public class ProductController {
         try {
             List<Product> productCategoryList = new ArrayList<Product>();
             if (productCategory == null) {
-                productService.findAll().forEach(productCategoryList::add);
+                productService.findAllProducts().forEach(productCategoryList::add);
             } else {
                 productService.findByProductCategory(productCategory).forEach(productCategoryList::add);
             }
@@ -78,43 +76,28 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/addproduct")
+    @PostMapping("/seller/addproduct")
     public ResponseEntity<Product> createNewProduct(@RequestBody Product product) {
-        System.out.println("Called");
-        try {
-            Product newproduct = productService.createProduct(new Product(product.getProductID(),
-                    product.getProductName(),
-                    product.getProductPrice(),
-                    product.getProductCategory(),
-                    product.getProductAddedDate(),
-                    product.getProductStock(),
-                    product.getSeller()));
-            return new ResponseEntity<>(newproduct, HttpStatus.CREATED);
-
-        } catch (Exception ex) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        try{
+            Product createdProduct = productService.createProduct(product);
+            return ResponseEntity.ok(createdProduct);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PostMapping("/products/{id}")
+    @PostMapping("/seller/products/{id}")
     public ResponseEntity<Product> updateCurrentProduct(@PathVariable("id") long productID, @RequestBody Product product){
-        Optional<Product> productData = productService.findByProductID(productID);
-
-        if (productData.isPresent()){
-            Product currentproduct = productData.get();
-            currentproduct.setProductName(product.getProductName());
-            currentproduct.setProductPrice(product.getProductPrice());
-            currentproduct.setProductCategory(product.getProductCategory());
-            currentproduct.setProductStock(product.getProductStock());
-            return new ResponseEntity<>(productService.updateProduct(currentproduct), HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try{
+            Product updatedProduct = productService.updateProduct(productID, product);
+            return ResponseEntity.ok(updatedProduct);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @DeleteMapping("/product/{id}")
+    @DeleteMapping("/seller/product/{id}")
     public ResponseEntity<Product> deleteCurrentProduct(@PathVariable("id") long productID){
-
         try{
             productService.deleteProduct(productID);
             return new ResponseEntity<>(HttpStatus.OK);
