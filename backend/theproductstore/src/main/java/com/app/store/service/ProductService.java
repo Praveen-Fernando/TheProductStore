@@ -2,21 +2,14 @@ package com.app.store.service;
 
 import com.app.store.enums.ProductCategoryTypes;
 import com.app.store.model.Product;
-import com.app.store.model.ReqRes;
-import com.app.store.model.User;
 import com.app.store.repository.ProductRepository;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,12 +24,17 @@ public class ProductService implements ProductServiceImpl {
 
     @Override
     public List<Product> findAllProducts() {
-        return productRepository.findAll();
+        List<Product> productList = new ArrayList<Product>();
+        productList.addAll(productRepository.findAll());
+        return productList;
     }
 
     @Override
     public List<Product> findByProductName(String productName) {
-        return productRepository.findByProductName(productName);
+
+        List<Product> productListByName = new ArrayList<Product>();
+        productListByName.addAll(productRepository.findByProductName(productName));
+        return productListByName;
     }
 
     @Override
@@ -46,7 +44,9 @@ public class ProductService implements ProductServiceImpl {
 
     @Override
     public List<Product> findByProductCategory(ProductCategoryTypes productCategory) {
-        return productRepository.findByProductCategory(productCategory);
+        List<Product> productList = new ArrayList<Product>();
+        productList.addAll(productRepository.findByProductCategory(productCategory));
+        return productList;
     }
 
     public Product createProduct(Product product) {
@@ -60,7 +60,6 @@ public class ProductService implements ProductServiceImpl {
     }
 
     public Product updateProduct(Long productID, Product product) {
-
         Optional<Product> productData = productRepository.findById(productID);
 
         Product currentproduct = productData.get();

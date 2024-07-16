@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                         .requestMatchers("/buyer/**").hasAnyAuthority("BUYER")
                         .requestMatchers("/seller/**").hasAnyAuthority("SELLER")
+                        .requestMatchers("/common/**").hasAnyAuthority("SELLER", "BUYER")
                         .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "BUYER","SELLER")
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

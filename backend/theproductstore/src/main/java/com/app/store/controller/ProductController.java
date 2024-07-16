@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,29 +18,22 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-    @GetMapping("/products")
+    @GetMapping("/public/products")
     public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String productName) {
-        System.out.println("Called");
-        try {
-            List<Product> productList = new ArrayList<Product>();
-            if (productName == null) {
-                productService.findAllProducts().forEach(productList::add);
-            } else {
-                productService.findByProductName(productName).forEach(productList::add);
-            }
 
-            if (productList.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(productList, HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-
+        try{
+            return new ResponseEntity<>(productService.findAllProducts(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/product/{productID}")
+    @GetMapping("/public/products{productName}")
+    public ResponseEntity<List<Product>> getByProductName(@PathVariable("productName") String productName) {
+        return ResponseEntity.ok(productService.findAllProducts());
+    }
+
+    @GetMapping("/public/product/{productID}")
     public ResponseEntity<Product> getProductById(@PathVariable("productID") long productID) {
         Optional<Product> productData = productService.findByProductID(productID);
 
@@ -53,26 +45,12 @@ public class ProductController {
     }
 
 
-    @GetMapping("/products/{productCategory}")
+    @GetMapping("/public/products/{productCategory}")
     public ResponseEntity<List<Product>> getProductByCategory(@PathVariable(value= "productCategory") ProductCategoryTypes productCategory) {
-
-        try {
-            List<Product> productCategoryList = new ArrayList<Product>();
-            if (productCategory == null) {
-                productService.findAllProducts().forEach(productCategoryList::add);
-            } else {
-                productService.findByProductCategory(productCategory).forEach(productCategoryList::add);
-            }
-
-            if (productCategoryList.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(productCategoryList, HttpStatus.OK);
-        } catch (Exception ex) {
-            System.out.println(ex);
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-
+        try{
+            return new ResponseEntity<>(productService.findByProductCategory(productCategory), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -105,5 +83,4 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }
