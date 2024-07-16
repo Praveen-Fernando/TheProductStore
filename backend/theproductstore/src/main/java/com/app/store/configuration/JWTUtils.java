@@ -16,13 +16,12 @@ import java.util.function.Function;
 
 @Component
 public class JWTUtils {
-
+    private final JwtProperties jwtProperties;
     private final SecretKey Key;
-    private static final long EXPIRATION_TIME = 86400000;  //24H
 
-    public JWTUtils(){
-        String secretString = "843567893696976453275974432697R634976R738467TR678T34865R6834R8763T478378637664538745673865783678548735687R3";
-        byte[] keyBytes = Base64.getDecoder().decode(secretString.getBytes(StandardCharsets.UTF_8));
+    public JWTUtils(JwtProperties jwtProperties){
+        this.jwtProperties = jwtProperties;
+        byte[] keyBytes = Base64.getDecoder().decode(jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8));
         System.out.println(keyBytes);
         this.Key = new SecretKeySpec(keyBytes, "HMACSHA256");
         System.out.println(this.Key);
@@ -32,7 +31,7 @@ public class JWTUtils {
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getExpirationTime()))
                 .signWith(Key)
                 .compact();
     }
@@ -41,27 +40,10 @@ public class JWTUtils {
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .expiration(new Date(System.currentTimeMillis() + jwtProperties.getExpirationTime()))
                 .signWith(Key)
                 .compact();
     }
-
-//    public String extractUserName(String token){
-//        return extractClaims(token, Claims::getSubject);
-//    }
-//
-//    private <T> T extractClaims(String token, Function<Claims, T> claimsTFunction){
-//        return  claimsTFunction.apply(Jwts.parser().verifyWith(Key).build().parseSignedClaims(token).getPayload());
-//    }
-//
-//    public boolean isTokenValid(String token, UserDetails userDetails){
-//        final  String username = extractUserName(token);
-//        return (username.equals(userDetails.getUsername()) && isTokenExpired(token));
-//    }
-//
-//    public boolean isTokenExpired(String token){
-//        return extractClaims(token, Claims::getExpiration).before(new Date());
-//    }
 
     public  String extractUsername(String token){
         return  extractClaims(token, Claims::getSubject);
