@@ -64,7 +64,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/seller/products/{id}")
+    @PostMapping("/seller/product/{id}")
     public ResponseEntity<Product> updateCurrentProduct(@PathVariable("id") long productID, @RequestBody Product product){
         try{
             Product updatedProduct = productService.updateProduct(productID, product);
