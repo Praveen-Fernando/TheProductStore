@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserService } from "../service/UserService";
 
-export default function Registration() {
+export default function SellerRegistration() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -10,7 +10,7 @@ export default function Registration() {
     email: "",
     password: "",
     contact: "",
-    role: "USER",
+    role: "SELLER",
   });
 
   const handleInputChange = (e) => {
@@ -45,7 +45,7 @@ export default function Registration() {
     <div className="auth-container">
       <br />
       <h1 class="mb-4 text-center text-4xl font-extrabold   text-gray-900 md:text-3xl lg:text-3xl dark:text-white">
-        Create your Account
+        Create your Seller Account
       </h1>
       <br />
       <form class="max-w-md mx-auto" onSubmit={handleSubmit}>
