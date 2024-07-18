@@ -1,16 +1,9 @@
 import { Link } from "react-router-dom";
 import { UserService } from "../service/UserService";
 
-export default function AuthenticatedHeader() {
+export default function AuthenticatedHeader({ onLogout }) {
   const isAuthenticated = UserService.isAuthenticated();
   const isAdmin = UserService.isAdmin();
-
-  const handleLogout = () => {
-    const confirmDelete = window.confirm("Are You sure?");
-    if (confirmDelete) {
-      UserService.logout();
-    }
-  };
 
   return (
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
@@ -24,6 +17,19 @@ export default function AuthenticatedHeader() {
             Product Store
           </span>
         </a>
+
+        {isAuthenticated && (
+          <Link to="/">
+            <a
+              href="#"
+              onClick={onLogout}
+              class="text-sm  text-gray-500 dark:text-white hover:underline"
+            >
+              Logout
+            </a>
+          </Link>
+        )}
+
         <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
           <button
             type="button"

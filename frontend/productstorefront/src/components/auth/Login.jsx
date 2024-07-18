@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserService } from "../service/UserService";
 
-export default function Login({ setIsAuthenticated }) {
+export default function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -10,7 +10,6 @@ export default function Login({ setIsAuthenticated }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsAuthenticated(true);
 
     try {
       const userData = await UserService.login(email, password);
@@ -18,6 +17,7 @@ export default function Login({ setIsAuthenticated }) {
       if (userData.token) {
         localStorage.setItem("token", userData.token);
         localStorage.setItem("role", userData.role);
+        onLogin();
         navigate("/profile");
       } else {
         setError(userData.message);
@@ -32,7 +32,7 @@ export default function Login({ setIsAuthenticated }) {
   };
 
   return (
-    <div class="pt-11">
+    <div class="pt-11 bg-white border-gray-200 dark:bg-gray-900">
       <h1 class="mb-4 text-center text-4xl font-extrabold   text-gray-900 md:text-3xl lg:text-3xl dark:text-white">
         Welcome! Please login.
       </h1>

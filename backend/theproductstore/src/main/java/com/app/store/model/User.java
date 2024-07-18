@@ -34,6 +34,9 @@ public class User implements UserDetails {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "contact")
+    private String contact;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));

@@ -16,6 +16,7 @@ export default function Registration() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    console.log(formData);
   };
 
   const handleSubmit = async (e) => {
@@ -42,7 +43,7 @@ export default function Registration() {
   };
 
   return (
-    <div className="auth-container">
+    <div class="bg-white border-gray-200 dark:bg-gray-900">
       <br />
       <h1 class="mb-4 text-center text-4xl font-extrabold   text-gray-900 md:text-3xl lg:text-3xl dark:text-white">
         Create your Account
@@ -90,7 +91,7 @@ export default function Registration() {
         <div class="relative z-0 w-full mb-5 group">
           <input
             type="email"
-            ame="email"
+            name="email"
             value={formData.email}
             onChange={handleInputChange}
             id="floating_email"

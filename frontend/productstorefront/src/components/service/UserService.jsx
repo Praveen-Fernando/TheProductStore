@@ -131,4 +131,8 @@ export class UserService {
   static adminOnly() {
     return this.isAuthenticated() && this.isAdmin();
   }
+
+  static sellerOnly() {
+    return this.isAuthenticated() && this.isSeller();
+  }
 }
