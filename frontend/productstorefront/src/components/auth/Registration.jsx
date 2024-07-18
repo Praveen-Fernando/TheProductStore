@@ -9,8 +9,8 @@ export default function Registration() {
     name: "",
     email: "",
     password: "",
+    role: "BUYER",
     contact: "",
-    role: "USER",
   });
 
   const handleInputChange = (e) => {
@@ -22,8 +22,8 @@ export default function Registration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
-      await UserService.register(formData, token);
+      await UserService.register(formData);
+      console.log(formData);
 
       //clear form after submit
       setFormData({
@@ -35,7 +35,7 @@ export default function Registration() {
       });
 
       alert("User Registed Successfully");
-      navigate("/admin/user-management");
+      navigate("/login");
     } catch (error) {
       console.log("Error registering user: " + error);
       alert("A error occurred while registering user");

@@ -62,21 +62,16 @@ function App() {
 
             {/* User Account login/Registraion */}
             <Route path="/login" element={<Login onLogin={handleLogin} />} />
-            <Route exact path="/register" element={<Registration />} />
+            <Route path="/register" element={<Registration />} />
 
             {/* Seller Registration */}
-            <Route
-              exact
-              path="/sellerregister"
-              element={<SellerRegistration />}
-            />
+            <Route path="/sellerregister" element={<SellerRegistration />} />
 
             {/* User Account  */}
             <Route path="/profile" element={<Profile />} />
 
             {UserService.adminOnly() && (
               <>
-                <Route path="/register" element={<Registration />} />
                 <Route
                   path="/admin/user-management"
                   element={<UserManagement />}
@@ -102,33 +97,6 @@ function App() {
       </div>
     </BrowserRouter>
   );
-
-  // <BrowserRouter>
-  //   <div className="App">
-  //     <Header />
-  //     <Navbar />
-  //     <div className="content">
-  //       <Routes>
-  //         <Route exact path="/" element={<Login />} />
-  //         <Route exact path="/login" element={<Login />} />
-  //         <Route path="/profile" element={<Profile />} />
-  //         {/* Check if user is authenticated and admin before rendering admin-only routes */}
-  //         {UserService.adminOnly() && (
-  //           <>
-  //             <Route path="/register" element={<Registration />} />
-  //             <Route
-  //               path="/admin/user-management"
-  //               element={<UserManagement />}
-  //             />
-  //             <Route path="/update-user/:userId" element={<UpdateUser />} />
-  //           </>
-  //         )}
-  //         <Route path="*" element={<Navigate to="/login" />} />‰
-  //       </Routes>
-  //     </div>
-  //     <Footer />
-  //   </div>
-  // </BrowserRouter>
 }
 
 export default App;

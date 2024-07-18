@@ -9,8 +9,8 @@ export default function SellerRegistration() {
     name: "",
     email: "",
     password: "",
-    contact: "",
     role: "SELLER",
+    contact: "",
   });
 
   const handleInputChange = (e) => {
@@ -21,8 +21,7 @@ export default function SellerRegistration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
-      await UserService.register(formData, token);
+      await UserService.register(formData);
 
       //clear form after submit
       setFormData({
@@ -33,8 +32,8 @@ export default function SellerRegistration() {
         role: "",
       });
 
-      alert("User Registed Successfully");
-      navigate("/admin/user-management");
+      alert("Seller Registed Successfully");
+      navigate("/login");
     } catch (error) {
       console.log("Error registering user: " + error);
       alert("A error occurred while registering user");
@@ -45,7 +44,7 @@ export default function SellerRegistration() {
     <div class="bg-white border-gray-200 dark:bg-gray-900">
       <br />
       <h1 class="mb-4 text-center text-4xl font-extrabold   text-gray-900 md:text-3xl lg:text-3xl dark:text-white">
-        Create your Seller Account
+        Create your Account
       </h1>
       <br />
       <form class="max-w-md mx-auto" onSubmit={handleSubmit}>

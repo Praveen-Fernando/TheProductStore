@@ -1,12 +1,6 @@
 import { Link } from "react-router-dom";
-import Login from "../auth/Login";
-import Registration from "../auth/Registration";
-import AboutUs from "../userspage/AboutUs";
-import ContactUs from "../userspage/ContactUs";
-import Home from "../userspage/Home";
-import NavDropdown from "./NavDropdown";
 
-export default function PublicHeader({ handleContentChange }) {
+export default function PublicHeader({}) {
   return (
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
       <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">

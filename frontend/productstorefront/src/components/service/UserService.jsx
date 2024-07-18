@@ -15,14 +15,11 @@ export class UserService {
     }
   }
 
-  static async register(userData, token) {
+  static async register(userData) {
     try {
       const response = await axios.post(
         `${UserService.BASE_URL}/auth/register`,
-        userData,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        userData
       );
       return response.data;
     } catch (error) {
@@ -102,7 +99,6 @@ export class UserService {
   }
 
   /** AUTHENTICATION CHECKER */
-
   static logout() {
     localStorage.removeItem(`token`);
     localStorage.removeItem(`role`);

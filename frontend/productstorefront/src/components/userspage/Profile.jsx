@@ -13,7 +13,6 @@ export default function Profile() {
     try {
       const token = localStorage.getItem("token"); // Retrieve the token from localStorage
       const response = await UserService.getUserProfile(token);
-      console.log(response);
       setProfileInfo(response.user);
     } catch (error) {
       console.error("Error fetching profile information:", error);
