@@ -20,6 +20,9 @@ import Home from "./components/userspage/Home";
 import AboutUs from "./components/userspage/AboutUs";
 import ContactUs from "./components/userspage/ContactUs";
 import SellerRegistration from "./components/auth/SellerRegistration";
+import LoggedUser from "./components/userspage/LoggedUser";
+import ManageProfile from "./components/userspage/ManageProfile";
+import Points from "./components/userspage/Points";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -53,7 +56,7 @@ function App() {
             <PublicHeader />
           </div>
         )}
-        <div className="content">
+        <div className="content" class="flex flex-col h-screen justify-between">
           <Routes>
             <Route exact path="*" element={<Home />} />
             <Route exact path="/home" element={<Home />} />
@@ -70,6 +73,13 @@ function App() {
             {/* User Account  */}
             <Route path="/profile" element={<Profile />} />
 
+            <Route path="/LoggedUser" element={<LoggedUser />} />
+            <Route
+              path="/LoggedUser/manageprofile"
+              element={<ManageProfile />}
+            />
+            <Route path="/LoggedUser/points" element={<Points />} />
+
             {UserService.adminOnly() && (
               <>
                 <Route
@@ -80,15 +90,7 @@ function App() {
               </>
             )}
 
-            {/* {UserService.sellerOnly() && (
-              <>
-                <Route
-                  path="/sellerregister"
-                  element={<SellerRegistration />}
-                />
-                <Route path="/update-user/:userId" element={<UpdateUser />} />
-              </>
-            )} */}
+            {/* {UserService.buyerOnly() && <></>} */}
 
             <Route path="/login" element={<Navigate to="/login" />} />
           </Routes>

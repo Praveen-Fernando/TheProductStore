@@ -18,7 +18,7 @@ export default function Login({ onLogin }) {
         localStorage.setItem("token", userData.token);
         localStorage.setItem("role", userData.role);
         onLogin();
-        navigate("/profile");
+        navigate("/LoggedUser");
       } else {
         setError(userData.message);
       }

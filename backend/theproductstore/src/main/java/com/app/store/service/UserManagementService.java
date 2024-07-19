@@ -35,6 +35,7 @@ public class UserManagementService implements UserManagementServiceImpl {
             user.setName(registrationRequest.getName());
             user.setRole(registrationRequest.getRole());
             user.setContact(registrationRequest.getContact());
+            user.setDob(registrationRequest.getDob());
             user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
             User userResult = userRepository.save(user);
 
@@ -141,6 +142,7 @@ public class UserManagementService implements UserManagementServiceImpl {
                 currentUser.setName(updatedUser.getName());
                 currentUser.setRole(updatedUser.getRole());
                 currentUser.setContact(updatedUser.getContact());
+                currentUser.setDob(updatedUser.getDob());
 
                 if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
                     currentUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));

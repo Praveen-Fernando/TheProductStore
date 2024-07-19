@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import Contents from "./Contents";
 import { UserService } from "../service/UserService";
 
-export default function Profile() {
+export default function LoggedUser() {
   const [profileInfo, setProfileInfo] = useState({});
 
   useEffect(() => {
@@ -19,15 +20,8 @@ export default function Profile() {
   };
 
   return (
-    <div class="gap-4">
-      <h1 class=" text-left text-lg font-extrabold text-black-900 dark:text-black">
-        My Profile
-      </h1>
-      <br />
-      <div class="grid grid-cols-1 gap-4 place-content-stretch h-48 border bottom-3 p-2">
-        <p class="my-4">{profileInfo.name}</p>
-        <p class="my-4">{profileInfo.email}</p>
-      </div>
+    <div>
+      <Contents profileInfo={profileInfo} />
     </div>
   );
 }

@@ -11,6 +11,7 @@ export default function Registration() {
     password: "",
     role: "BUYER",
     contact: "",
+    dob: "",
   });
 
   const handleInputChange = (e) => {
@@ -32,6 +33,7 @@ export default function Registration() {
         password: "",
         contact: "",
         role: "",
+        dob: "",
       });
 
       alert("User Registed Successfully");
@@ -124,6 +126,21 @@ export default function Registration() {
             Password
           </label>
         </div>
+
+        <div class="relative z-0 w-full mb-5 group">
+          <input
+            id="date-picker"
+            class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+            placeholder=" "
+          />
+          <label
+            for="floating_password"
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          >
+            Password
+          </label>
+        </div>
+
         <button
           type="submit"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
