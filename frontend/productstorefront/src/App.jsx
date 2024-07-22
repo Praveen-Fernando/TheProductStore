@@ -32,7 +32,7 @@ function App() {
     // Check if the user is authenticated initially
     setIsAuthenticated(UserService.isAuthenticated());
     const authState = localStorage.getItem("isAuthenticated");
-    const role = localStorage.getItem("userRole");
+    const role = localStorage.getItem("role");
     if (authState) {
       setIsAuthenticated(JSON.parse(authState));
       if (role) {
@@ -44,7 +44,7 @@ function App() {
   useEffect(() => {
     // Update local storage when authentication state or user role changes
     localStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
-    localStorage.setItem("userRole", userRole);
+    localStorage.setItem("role", userRole);
   }, [isAuthenticated, userRole]);
 
   const handleLogin = (role) => {
@@ -56,9 +56,11 @@ function App() {
     const logout = window.confirm("Are you Sure?");
     if (logout) {
       UserService.logout();
+      console.log("button was clicked");
     }
     setIsAuthenticated(false);
     setUserRole(null);
+    console.log("button was clicked");
   };
 
   return (
@@ -66,19 +68,14 @@ function App() {
       <div className="App">
         {isAuthenticated ? (
           UserService.buyerOnly() ? (
-            <div>
-              <PublicHeader onLogout={handleLogout} />
-            </div>
+            <PublicHeader onLogout={handleLogout} />
           ) : (
-            <div>
-              <AuthenticatedHeader onLogout={handleLogout} />
-            </div>
+            <AuthenticatedHeader onLogout={handleLogout} />
           )
         ) : (
-          <div>
-            <PublicHeader />
-          </div>
+          <PublicHeader />
         )}
+
         <div className="content" class="flex flex-col h-screen justify-between">
           <Routes>
             <Route exact path="*" element={<Home />} />
@@ -131,7 +128,7 @@ function App() {
           )
         ) : (
           <div>
-            <PublicHeader />
+            <PublicFooter />
           </div>
         )}
       </div>

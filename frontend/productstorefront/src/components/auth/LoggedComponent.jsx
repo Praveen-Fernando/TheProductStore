@@ -22,11 +22,8 @@ export default function LoggedComponent({ onLogout }) {
 
   return (
     <div>
-      <div className="relative" ref={dropdownRef}>
-        <div
-          className="flex items-center cursor-pointer"
-          onClick={toggleDropdown}
-        >
+      <div class="relative" ref={dropdownRef}>
+        <div class="flex items-center cursor-pointer" onClick={toggleDropdown}>
           <img
             class="w-8 h-8 rounded-full"
             src="src/images/man.png"
@@ -34,13 +31,12 @@ export default function LoggedComponent({ onLogout }) {
           />
         </div>
         {isDropdownOpen && (
-          <div className="absolute right-0 w-48 mt-2 text-black bg-white border border-gray-200 rounded shadow-lg">
+          <div class="absolute right-0 w-48 mt-2 text-black bg-white border border-gray-200 rounded shadow-lg z-10">
             <Link to="/LoggedUser">
-              <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+              <a href="#" class="block px-4 py-2 hover:bg-gray-100">
                 Settings
               </a>
             </Link>
-
             <Link to="/">
               <a
                 href="#"

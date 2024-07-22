@@ -41,6 +41,9 @@ public class User implements UserDetails {
     @Column(name = "dob")
     private LocalDate dob;
 
+    @Column(name = "gender")
+    private String gender;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));
