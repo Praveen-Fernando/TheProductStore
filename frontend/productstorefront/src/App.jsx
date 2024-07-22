@@ -26,14 +26,30 @@ import Points from "./components/userspage/Points";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     // Check if the user is authenticated initially
     setIsAuthenticated(UserService.isAuthenticated());
+    const authState = localStorage.getItem("isAuthenticated");
+    const role = localStorage.getItem("userRole");
+    if (authState) {
+      setIsAuthenticated(JSON.parse(authState));
+      if (role) {
+        setUserRole(role);
+      }
+    }
   }, []);
 
-  const handleLogin = () => {
+  useEffect(() => {
+    // Update local storage when authentication state or user role changes
+    localStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
+    localStorage.setItem("userRole", userRole);
+  }, [isAuthenticated, userRole]);
+
+  const handleLogin = (role) => {
     setIsAuthenticated(true);
+    setUserRole(role);
   };
 
   const handleLogout = () => {
@@ -42,15 +58,22 @@ function App() {
       UserService.logout();
     }
     setIsAuthenticated(false);
+    setUserRole(null);
   };
 
   return (
     <BrowserRouter>
       <div className="App">
         {isAuthenticated ? (
-          <div>
-            <AuthenticatedHeader onLogout={handleLogout} />
-          </div>
+          UserService.buyerOnly() ? (
+            <div>
+              <PublicHeader onLogout={handleLogout} />
+            </div>
+          ) : (
+            <div>
+              <AuthenticatedHeader onLogout={handleLogout} />
+            </div>
+          )
         ) : (
           <div>
             <PublicHeader />
@@ -95,7 +118,22 @@ function App() {
             <Route path="/login" element={<Navigate to="/login" />} />
           </Routes>
         </div>
-        {isAuthenticated ? <AuthenticatedFooter /> : <PublicFooter />}
+
+        {isAuthenticated ? (
+          UserService.buyerOnly() ? (
+            <div>
+              <PublicFooter onLogout={handleLogout} />
+            </div>
+          ) : (
+            <div>
+              <AuthenticatedFooter onLogout={handleLogout} />
+            </div>
+          )
+        ) : (
+          <div>
+            <PublicHeader />
+          </div>
+        )}
       </div>
     </BrowserRouter>
   );

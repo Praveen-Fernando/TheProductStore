@@ -1,6 +1,13 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { UserService } from "../service/UserService";
+import LoggedComponent from "../auth/LoggedComponent";
+import LoginComponent from "../auth/LoginComponent";
 
-export default function PublicHeader({}) {
+export default function PublicHeader({ onLogout }) {
+  const isAuthenticated = UserService.isAuthenticated();
+  console.log(isAuthenticated);
+
   return (
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
       <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
@@ -19,7 +26,6 @@ export default function PublicHeader({}) {
               Become a Seller
             </a>
           </Link>
-
           <Link to="/help">
             <a
               href="tel:5541251234"
@@ -28,24 +34,17 @@ export default function PublicHeader({}) {
               Help & Support
             </a>
           </Link>
-          <div class="flex items-center md:order-2 space-x-1 md:space-x-2 rtl:space-x-reverse">
-            <Link to="/login">
-              <a
-                href="#"
-                class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
-              >
-                Login
-              </a>
-            </Link>
-            <Link to="/register">
-              <a
-                href="#"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-              >
-                Sign up
-              </a>
-            </Link>
-          </div>
+          {/* <LoginComponent /> */}
+          /*{" "}
+          {isAuthenticated ? (
+            <LoggedComponent
+              onLogout={onLogout}
+              isAuthenticated={isAuthenticated}
+            />
+          ) : (
+            <LoginComponent />
+          )}{" "}
+          */
         </div>
       </div>
 
@@ -64,7 +63,7 @@ export default function PublicHeader({}) {
         </Link>
 
         <div class="flex md:order-2">
-          <button
+          {/* <button
             type="button"
             data-collapse-toggle="navbar-search"
             aria-controls="navbar-search"
@@ -87,8 +86,8 @@ export default function PublicHeader({}) {
               />
             </svg>
             <span class="sr-only">Search</span>
-          </button>
-          <div class="relative hidden md:block">
+          </button> */}
+          {/* <div class="relative hidden md:block">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               <svg
                 class="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -113,7 +112,7 @@ export default function PublicHeader({}) {
               class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Search..."
             />
-          </div>
+          </div> */}
           <button
             data-collapse-toggle="navbar-search"
             type="button"

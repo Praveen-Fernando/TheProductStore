@@ -131,4 +131,8 @@ export class UserService {
   static sellerOnly() {
     return this.isAuthenticated() && this.isSeller();
   }
+
+  static buyerOnly() {
+    return this.isAuthenticated() && this.isBuyer();
+  }
 }
