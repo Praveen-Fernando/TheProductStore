@@ -35,6 +35,7 @@ export default function ManageProfile() {
           </h3>
           <p class="my-4">{profileInfo.name}</p>
           <p class="my-4">{profileInfo.email}</p>
+          <p class="my-4">{profileInfo.role}</p>
         </div>
         <div class="border bottom-3 p-2">
           {" "}

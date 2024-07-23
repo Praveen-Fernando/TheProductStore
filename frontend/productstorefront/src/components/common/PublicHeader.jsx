@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { UserService } from "../service/UserService";
 import LoggedComponent from "../auth/LoggedComponent";
 import LoginComponent from "../auth/LoginComponent";
+import Authentication from "../auth/Authentication";
+import { useEffect, useState } from "react";
 
-export default function PublicHeader({ onLogout }) {
-  const isAuthenticated = UserService.isAuthenticated();
+export default function PublicHeader() {
+  const { isAuthenticated, handleLogout } = Authentication();
   console.log(isAuthenticated);
 
   return (
@@ -34,12 +34,7 @@ export default function PublicHeader({ onLogout }) {
               Help & Support
             </a>
           </Link>
-          {isAuthenticated ? (
-            <LoggedComponent onLogout={onLogout} />
-          ) : (
-            <LoginComponent />
-          )}{" "}
-          */
+          {isAuthenticated ? <LoggedComponent /> : <LoginComponent />} */
         </div>
       </div>
 

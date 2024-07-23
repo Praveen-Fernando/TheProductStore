@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserService } from "../service/UserService";
+import Authentication from "./Authentication";
 
-export default function Login({ onLogin }) {
+export default function Login() {
+  const { handleLogin } = Authentication();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,7 +19,7 @@ export default function Login({ onLogin }) {
       if (userData.token) {
         localStorage.setItem("token", userData.token);
         localStorage.setItem("role", userData.role);
-        onLogin();
+        handleLogin();
         navigate("/LoggedUser");
       } else {
         setError(userData.message);

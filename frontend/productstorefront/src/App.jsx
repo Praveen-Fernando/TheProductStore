@@ -23,54 +23,20 @@ import SellerRegistration from "./components/auth/SellerRegistration";
 import LoggedUser from "./components/userspage/LoggedUser";
 import ManageProfile from "./components/userspage/ManageProfile";
 import Points from "./components/userspage/Points";
+import Authentication from "./components/auth/Authentication";
+import BuyerHeader from "./components/common/BuyerHeader";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState(null);
-
-  useEffect(() => {
-    // Check if the user is authenticated initially
-    setIsAuthenticated(UserService.isAuthenticated());
-    const authState = localStorage.getItem("isAuthenticated");
-    const role = localStorage.getItem("role");
-    if (authState) {
-      setIsAuthenticated(JSON.parse(authState));
-      if (role) {
-        setUserRole(role);
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    // Update local storage when authentication state or user role changes
-    localStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
-    localStorage.setItem("role", userRole);
-  }, [isAuthenticated, userRole]);
-
-  const handleLogin = (role) => {
-    setIsAuthenticated(true);
-    setUserRole(role);
-  };
-
-  const handleLogout = () => {
-    const logout = window.confirm("Are you Sure?");
-    if (logout) {
-      UserService.logout();
-      console.log("button was clicked");
-    }
-    setIsAuthenticated(false);
-    setUserRole(null);
-    console.log("button was clicked");
-  };
+  const { isAuthenticated } = Authentication();
 
   return (
     <BrowserRouter>
       <div className="App">
         {isAuthenticated ? (
           UserService.buyerOnly() ? (
-            <PublicHeader onLogout={handleLogout} />
+            <PublicHeader />
           ) : (
-            <AuthenticatedHeader onLogout={handleLogout} />
+            <AuthenticatedHeader />
           )
         ) : (
           <PublicHeader />
@@ -84,7 +50,7 @@ function App() {
             <Route exact path="/contactus" element={<ContactUs />} />
 
             {/* User Account login/Registraion */}
-            <Route path="/login" element={<Login onLogin={handleLogin} />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
 
             {/* Seller Registration */}
@@ -119,11 +85,11 @@ function App() {
         {isAuthenticated ? (
           UserService.buyerOnly() ? (
             <div>
-              <PublicFooter onLogout={handleLogout} />
+              <PublicFooter />
             </div>
           ) : (
             <div>
-              <AuthenticatedFooter onLogout={handleLogout} />
+              <AuthenticatedFooter />
             </div>
           )
         ) : (

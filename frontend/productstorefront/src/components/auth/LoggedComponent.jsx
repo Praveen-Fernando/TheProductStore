@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { UserService } from "../service/UserService";
 import { Link } from "react-router-dom";
+import Authentication from "./Authentication";
 
-export default function LoggedComponent({ onLogout }) {
+export default function LoggedComponent() {
+  const { handleLogout } = Authentication();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -40,7 +42,7 @@ export default function LoggedComponent({ onLogout }) {
             <Link to="/">
               <a
                 href="#"
-                onClick={onLogout}
+                onClick={handleLogout}
                 className="block px-4 py-2 hover:bg-gray-100"
               >
                 Logout

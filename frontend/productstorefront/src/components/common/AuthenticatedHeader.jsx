@@ -1,9 +1,11 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { UserService } from "../service/UserService";
 import { useEffect, useRef, useState } from "react";
+import Authentication from "../auth/Authentication";
+import PublicHeader from "./PublicHeader";
 
-export default function AuthenticatedHeader({ onLogout }) {
-  const isAuthenticated = UserService.isAuthenticated();
+export default function AuthenticatedHeader() {
+  const { isAuthenticated, handleLogout } = Authentication();
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -49,14 +51,20 @@ export default function AuthenticatedHeader({ onLogout }) {
           </div>
           {isDropdownOpen && (
             <div className="absolute right-0 w-48 mt-2 text-black bg-white border border-gray-200 rounded shadow-lg">
-              <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                Settings
-              </a>
+              <Link to="/home">
+                <a
+                  href="/LoggedUser"
+                  className="block px-4 py-2 hover:bg-gray-100"
+                >
+                  Settings
+                </a>
+              </Link>
+
               {isAuthenticated && (
-                <Link to="/">
+                <Link to="/home">
                   <a
                     href="#"
-                    onClick={onLogout}
+                    onClick={handleLogout}
                     className="block px-4 py-2 hover:bg-gray-100"
                   >
                     Logout
