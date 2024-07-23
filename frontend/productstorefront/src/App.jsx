@@ -1,21 +1,15 @@
 import "./App.css";
 import Login from "./components/auth/Login";
-import Navbar from "./components/common/AuthenticatedHeader";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { UserService } from "./components/service/UserService";
 import Registration from "./components/auth/Registration";
 import UserManagement from "./components/userspage/UserManagement";
-import Footer from "./components/common/PublicFooter";
 import Profile from "./components/userspage/Profile";
 import UpdateUser from "./components/userspage/UpdateUser";
-import Header from "./components/common/PublicHeader";
-import NavDropdown from "./components/common/NavDropdown";
 import PublicHeader from "./components/common/PublicHeader";
-import { useEffect, useState } from "react";
 import PublicFooter from "./components/common/PublicFooter";
 import AuthenticatedHeader from "./components/common/AuthenticatedHeader";
 import AuthenticatedFooter from "./components/common/AuthenticatedFooter";
-import Content from "./components/userspage/Content";
 import Home from "./components/userspage/Home";
 import AboutUs from "./components/userspage/AboutUs";
 import ContactUs from "./components/userspage/ContactUs";
@@ -24,7 +18,6 @@ import LoggedUser from "./components/userspage/LoggedUser";
 import ManageProfile from "./components/userspage/ManageProfile";
 import Points from "./components/userspage/Points";
 import Authentication from "./components/auth/Authentication";
-import BuyerHeader from "./components/common/BuyerHeader";
 
 function App() {
   const { isAuthenticated } = Authentication();

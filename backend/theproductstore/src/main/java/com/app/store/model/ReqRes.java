@@ -25,6 +25,7 @@ public class ReqRes {
     private String contact;
     private LocalDate dob;
     private String gender;
+    private String address;
     private User user;
     private List<User> userList;
 }

@@ -4,6 +4,8 @@ import { UserService } from "../service/UserService";
 
 export default function Registration() {
   const navigate = useNavigate();
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
     name: "",
@@ -12,6 +14,8 @@ export default function Registration() {
     role: "BUYER",
     contact: "",
     dob: "",
+    gender: "",
+    address: "",
   });
 
   const handleInputChange = (e) => {
@@ -20,24 +24,46 @@ export default function Registration() {
     console.log(formData);
   };
 
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
+  const validateForm = () => {
+    let formErrors = {};
+    if (formData.password !== confirmPassword) {
+      formErrors.confirmPassword = "Passwords do not match";
+    }
+    return formErrors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await UserService.register(formData);
-      console.log(formData);
+      const formErrors = validateForm();
+      if (Object.keys(formErrors).length === 0) {
+        await UserService.register(formData);
+        alert("User Registed Successfully");
+        navigate("/login");
+
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          contact: "",
+          role: "",
+          dob: "",
+          gender: "",
+          address: "",
+        });
+
+        // Handle form submission logic here
+      } else {
+        alert("Passwords do not match");
+        setErrors(formErrors);
+        window.location.reload();
+      }
 
       //clear form after submit
-      setFormData({
-        name: "",
-        email: "",
-        password: "",
-        contact: "",
-        role: "",
-        dob: "",
-      });
-
-      alert("User Registed Successfully");
-      navigate("/login");
     } catch (error) {
       console.log("Error registering user: " + error);
       alert("A error occurred while registering user");
@@ -92,6 +118,25 @@ export default function Registration() {
         </div>
         <div class="relative z-0 w-full mb-5 group">
           <input
+            type="text"
+            name="address"
+            value={formData.address}
+            onChange={handleInputChange}
+            id="floating_address"
+            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+            placeholder=" "
+            required
+          />
+
+          <label
+            for="floating_address"
+            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+          >
+            Address
+          </label>
+        </div>
+        <div class="relative z-0 w-full mb-5 group">
+          <input
             type="email"
             name="email"
             value={formData.email}
@@ -108,37 +153,108 @@ export default function Registration() {
             Email address
           </label>
         </div>
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            id="floating_password"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="floating_password"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Password
-          </label>
+
+        <div class="grid md:grid-cols-2 md:gap-6">
+          <div class="relative z-0 w-full mb-5 group">
+            <input
+              type="date"
+              name="dob"
+              value={formData.dob}
+              onChange={handleInputChange}
+              class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              required
+            />
+            <label
+              for="floating_password"
+              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              Date of Birth
+            </label>
+          </div>
+          <div class="relative z-0 w-full mb-5 group">
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleInputChange}
+              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-800 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              required
+            >
+              <option value="" class="block px-4 py-2 text-sm text-gray-700">
+                Select
+              </option>
+              <option
+                value="male"
+                class="block px-4 py-2 text-sm text-gray-700"
+              >
+                Male
+              </option>
+              <option
+                value="female"
+                class="block px-4 py-2 text-sm text-gray-700"
+              >
+                Female
+              </option>
+              <option
+                value="other"
+                class="block px-4 py-2 text-sm text-gray-700"
+              >
+                Other
+              </option>
+            </select>
+
+            <label
+              for="floating_password"
+              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              Gender
+            </label>
+          </div>
         </div>
 
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            id="date-picker"
-            class="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-            placeholder=" "
-          />
-          <label
-            for="floating_password"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Password
-          </label>
+        <div class="grid md:grid-cols-2 md:gap-6">
+          <div class="relative z-0 w-full mb-5 group">
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              id="floating_password"
+              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              required
+            />
+            <label
+              for="floating_password"
+              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              Password
+            </label>
+          </div>
+          <div class="relative z-0 w-full mb-5 group">
+            <input
+              type="password"
+              name="confirmPassword"
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
+              id="floating_confirmpassword"
+              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              required
+            />
+            <label
+              for="floating_confirmpassword"
+              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              Confirm Password
+            </label>
+            {errors.confirmPassword && (
+              <p className="mt-2 text-sm text-red-500">
+                {errors.confirmPassword}
+              </p>
+            )}
+          </div>
         </div>
 
         <button

@@ -11,6 +11,9 @@ export default function SellerRegistration() {
     password: "",
     role: "SELLER",
     contact: "",
+    dob: "",
+    gender: "",
+    address: "",
   });
 
   const handleInputChange = (e) => {
@@ -30,6 +33,9 @@ export default function SellerRegistration() {
         password: "",
         contact: "",
         role: "",
+        dob: "",
+        gender: "",
+        address: "",
       });
 
       alert("Seller Registed Successfully");

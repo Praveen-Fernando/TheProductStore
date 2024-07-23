@@ -10,7 +10,7 @@ export default function PublicHeader() {
 
   return (
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
-      <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
+      <div class="flex flex-wrap justify-end items-center mx-auto text-base max-w-screen-xl p-4">
         <a
           href="https://flowbite.com"
           class="flex items-center space-x-3 rtl:space-x-reverse"
@@ -34,7 +34,7 @@ export default function PublicHeader() {
               Help & Support
             </a>
           </Link>
-          {isAuthenticated ? <LoggedComponent /> : <LoginComponent />} */
+          {isAuthenticated ? <LoggedComponent /> : <LoginComponent />}
         </div>
       </div>
 
