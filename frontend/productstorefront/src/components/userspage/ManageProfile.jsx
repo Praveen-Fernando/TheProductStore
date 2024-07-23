@@ -33,9 +33,18 @@ export default function ManageProfile() {
               |Edit
             </a>
           </h3>
-          <p class="my-4">{profileInfo.name}</p>
-          <p class="my-4">{profileInfo.email}</p>
-          <p class="my-4">{profileInfo.role}</p>
+          <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Name</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {profileInfo.name}
+            </dd>
+          </div>
+          <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Email</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {profileInfo.email}
+            </dd>
+          </div>
         </div>
         <div class="border bottom-3 p-2">
           {" "}
@@ -45,9 +54,18 @@ export default function ManageProfile() {
               |Edit
             </a>
           </h3>
-          <p class="my-4 text-xs">DEFAULT DELIVERY ADDRESS</p>
-          <p class="my-4">{profileInfo.name}</p>
-          <p class="my-4">{profileInfo.contact}</p>
+          <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Address</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {profileInfo.address}
+            </dd>
+          </div>
+          <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500">Contact</dt>
+            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              {profileInfo.contact}
+            </dd>
+          </div>
         </div>
       </div>
       <br />

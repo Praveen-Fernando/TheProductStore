@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Authentication from "./Authentication";
 
 export default function LoggedComponent() {
-  const { handleLogout } = Authentication();
+  const { handleLogout, profileInfo } = Authentication();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
@@ -34,6 +34,15 @@ export default function LoggedComponent() {
         </div>
         {isDropdownOpen && (
           <div class="absolute right-0 w-48 mt-2 text-black bg-white border border-gray-200 rounded shadow-lg z-10">
+            <div class="border-b-2 border-gray-300">
+              <a class="block px-4 py-2 hover:bg-gray-100 text-sm pb-0">
+                {profileInfo.name}
+              </a>
+              <a class="block px-4 py-2 hover:bg-gray-100 text-sm pt-0">
+                {profileInfo.email}
+              </a>
+            </div>
+
             <Link to="/LoggedUser">
               <a href="#" class="block px-4 py-2 hover:bg-gray-100">
                 Settings

@@ -2,9 +2,11 @@ import { useState } from "react";
 import Profile from "./Profile";
 import ManageProfile from "./ManageProfile";
 import Points from "./Points";
+import Authentication from "../auth/Authentication";
 
-export default function Contents({ profileInfo }) {
+export default function Contents() {
   const [content, setContent] = useState(<ManageProfile />);
+  const { profileInfo } = Authentication();
 
   const handleContentChange = (newContent) => {
     setContent(newContent);
@@ -12,12 +14,19 @@ export default function Contents({ profileInfo }) {
 
   return (
     <div>
-      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <span class="ms-3">Hello, {profileInfo.name}</span>
+      <div class="max-w-screen-xl flex flex-wrap items-center  mx-auto p-4">
+        <div class="grid grid-flow-col-1">
+          <span class="ms-3 text-sm">Hello, {profileInfo.name}</span>
+          <img
+            class="p-0 float-right m-4 border-spacing-0  h-3/6 w-7/12"
+            src="src/images/verified-user.png"
+            alt="user photo"
+          />
+        </div>
 
-        <ul class=" w-full md:grid-cols-2 flex mb-4 gap-6 ">
+        <ul class=" w-full md:grid-cols-2 flex mb-4 gap-6">
           <li className="h-full text-center bg-gray-500 sm:text-left">
-            <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50">
+            <div class="h-full px-5 py-4 overflow-y-auto bg-gray-50 ">
               <ul class="space-y-2 font-medium ">
                 <li>
                   <a
