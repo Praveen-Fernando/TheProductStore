@@ -1,89 +1,78 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import Authentication from "../auth/Authentication";
 import { UserService } from "../service/UserService";
+import { useEffect, useState } from "react";
 
-export default function SellerRegistration() {
+export default function EditProfile() {
+  //const { profileInfo } = Authentication();
   const navigate = useNavigate();
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  const { userId } = useParams();
 
-  const [formData, setFormData] = useState({
+  const [userData, setUserData] = useState({
     name: "",
     email: "",
-    password: "",
-    role: "SELLER",
     contact: "",
     dob: "",
     gender: "",
     address: "",
   });
 
+  useEffect(() => {
+    fetchUser(userId);
+  }, [userId]);
+
+  const fetchUser = async (userId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserService.getUserById(userId, token);
+      const { name, email, role, contact, dob, gender, address } =
+        response.user;
+      setUserData({ name, email, role, contact, dob, gender, address });
+      console.log(userData);
+    } catch (err) {
+      console.error("Error fetching user data:", err);
+      setError(err.message);
+    }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    console.log(formData);
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
-  };
-
-  const validateForm = () => {
-    let formErrors = {};
-    if (formData.password !== confirmPassword) {
-      formErrors.confirmPassword = "Passwords do not match";
-    }
-    return formErrors;
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formErrors = validateForm();
-      if (Object.keys(formErrors).length === 0) {
-        await UserService.register(formData);
-        alert("User Registed Successfully");
-        navigate("/login");
+      const confirmUpdate = window.confirm(
+        "Are you sure you want to delete this user?"
+      );
 
-        setFormData({
-          name: "",
-          email: "",
-          password: "",
-          contact: "",
-          role: "",
-          dob: "",
-          gender: "",
-          address: "",
-        });
-
-        // Handle form submission logic here
-      } else {
-        alert("Passwords do not match");
-        setErrors(formErrors);
-        window.location.reload();
+      if (confirmUpdate) {
+        const token = localStorage.getItem("token");
+        const res = await UserService.updateUser(userId, userData, token);
+        console.log(res);
+        // Redirect to profile page or display a success message
+        navigate("/content");
       }
-
-      //clear form after submit
     } catch (error) {
-      console.log("Error registering user: " + error);
-      alert("A error occurred while registering user");
+      console.error("Error updating user profile:", error);
+      alert(error);
     }
   };
 
   return (
-    <div class="bg-white border-gray-200 dark:bg-gray-900">
-      <br />
-      <h1 class="mb-4 text-center text-4xl font-extrabold   text-gray-900 md:text-3xl lg:text-3xl dark:text-white">
-        Create your Seller Account
-      </h1>
-      <br />
+    <div class="bg-gray-900">
+      <h2>Update User</h2>
       <form class="max-w-md mx-auto" onSubmit={handleSubmit}>
         <div class="grid md:grid-cols-2 md:gap-6">
           <div class="relative z-0 w-full mb-5 group">
             <input
               type="text"
               name="name"
-              value={formData.name}
+              value={userData.name}
               onChange={handleInputChange}
               id="floating_first_name"
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -101,7 +90,7 @@ export default function SellerRegistration() {
             <input
               type="tel"
               name="contact"
-              value={formData.contact}
+              value={userData.contact}
               onChange={handleInputChange}
               id="floating_phone"
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -120,7 +109,7 @@ export default function SellerRegistration() {
           <input
             type="text"
             name="address"
-            value={formData.address}
+            value={userData.address}
             onChange={handleInputChange}
             id="floating_address"
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -139,7 +128,7 @@ export default function SellerRegistration() {
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={userData.email}
             onChange={handleInputChange}
             id="floating_email"
             class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
@@ -159,7 +148,7 @@ export default function SellerRegistration() {
             <input
               type="date"
               name="dob"
-              value={formData.dob}
+              value={userData.dob}
               onChange={handleInputChange}
               class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
@@ -175,7 +164,7 @@ export default function SellerRegistration() {
           <div class="relative z-0 w-full mb-5 group">
             <select
               name="gender"
-              value={formData.gender}
+              value={userData.gender}
               onChange={handleInputChange}
               class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-800 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
               placeholder=" "
@@ -185,19 +174,19 @@ export default function SellerRegistration() {
                 Select
               </option>
               <option
-                value="Male"
+                value="male"
                 class="block px-4 py-2 text-sm text-gray-700"
               >
                 Male
               </option>
               <option
-                value="Female"
+                value="female"
                 class="block px-4 py-2 text-sm text-gray-700"
               >
                 Female
               </option>
               <option
-                value="Other"
+                value="other"
                 class="block px-4 py-2 text-sm text-gray-700"
               >
                 Other
@@ -213,55 +202,11 @@ export default function SellerRegistration() {
           </div>
         </div>
 
-        <div class="grid md:grid-cols-2 md:gap-6">
-          <div class="relative z-0 w-full mb-5 group">
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleInputChange}
-              id="floating_password"
-              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              for="floating_password"
-              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Password
-            </label>
-          </div>
-          <div class="relative z-0 w-full mb-5 group">
-            <input
-              type="password"
-              name="confirmPassword"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-              id="floating_confirmpassword"
-              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              for="floating_confirmpassword"
-              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Confirm Password
-            </label>
-            {errors.confirmPassword && (
-              <p className="mt-2 text-sm text-red-500">
-                {errors.confirmPassword}
-              </p>
-            )}
-          </div>
-        </div>
-
         <button
           type="submit"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Sign Up
+          Update Profile
         </button>
       </form>
     </div>

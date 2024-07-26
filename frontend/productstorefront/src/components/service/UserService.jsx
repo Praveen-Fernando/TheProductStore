@@ -58,7 +58,7 @@ export class UserService {
   static async getUserById(user_id, token) {
     try {
       const response = await axios.get(
-        `${UserService.BASE_URL}/admin/get-user/${user_id}`,
+        `${UserService.BASE_URL}/adminuser/get-user/${user_id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -72,11 +72,13 @@ export class UserService {
   static async deleteUser(user_id, token) {
     try {
       const response = await axios.delete(
-        `${UserService.BASE_URL}/admin/delete/${user_id}`,
+        `${UserService.BASE_URL}/adminuser/delete/${user_id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+      localStorage.removeItem(`token`);
+      localStorage.removeItem(`role`);
       return response.data;
     } catch (error) {
       throw error;
@@ -86,7 +88,7 @@ export class UserService {
   static async updateUser(user_id, userData, token) {
     try {
       const response = await axios.put(
-        `${UserService.BASE_URL}/admin/update/${user_id}`,
+        `${UserService.BASE_URL}/adminuser/update/${user_id}`,
         userData,
         {
           headers: { Authorization: `Bearer ${token}` },

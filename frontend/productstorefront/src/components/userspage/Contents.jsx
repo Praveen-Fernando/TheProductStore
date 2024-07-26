@@ -24,7 +24,7 @@ export default function Contents() {
           />
         </div>
 
-        <ul class=" w-full md:grid-cols-2 flex mb-4 gap-6">
+        <ul class="w-full md:grid-cols-2 flex mb-4 gap-6">
           <li className="h-full text-center bg-gray-500 sm:text-left">
             <div class="h-full px-5 py-4 overflow-y-auto bg-gray-50 ">
               <ul class="space-y-2 font-medium ">
@@ -90,7 +90,7 @@ export default function Contents() {
               </ul>
             </div>
           </li>
-          <li className="w-3/4 h-12 ">
+          <li className="w-3/4 h-full ">
             <div>
               <p>{content}</p>
             </div>

@@ -26,17 +26,11 @@ export default function AuthenticatedHeader() {
   return (
     <nav class="bg-white border-gray-200 dark:bg-gray-900">
       <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a
-          href="https://flowbite.com/"
-          class="flex items-center space-x-3 rtl:space-x-reverse"
-        >
-          <img src="" class="h-8" alt="Flowbite Logo" />
-          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            Product Store
-          </span>
+        <a href="" class="flex items-center space-x-3 rtl:space-x-reverse">
+          <img src="/src/images/logo.png" class="h-8" alt="Flowbite Logo" />
         </a>
 
-        <div className="relative" ref={dropdownRef}>
+        <div className="relative z-10" ref={dropdownRef}>
           <div
             className="flex items-center cursor-pointer"
             onClick={toggleDropdown}
@@ -57,11 +51,8 @@ export default function AuthenticatedHeader() {
                   {profileInfo.email}
                 </a>
               </div>
-              <Link to="/home">
-                <a
-                  href="/LoggedUser"
-                  className="block px-4 py-2 hover:bg-gray-100"
-                >
+              <Link to="/LoggedUser">
+                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
                   Settings
                 </a>
               </Link>

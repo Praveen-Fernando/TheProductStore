@@ -3,6 +3,8 @@ package com.app.store.configuration;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
+
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -13,13 +15,16 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.function.Function;
+import org.slf4j.Logger;
 
 @Component
 public class JWTUtils {
     private final JwtProperties jwtProperties;
     private final SecretKey Key;
+    private static final Logger logger = LoggerFactory.getLogger(JWTUtils.class);
 
     public JWTUtils(JwtProperties jwtProperties){
+        logger.info("Performing an action");
         this.jwtProperties = jwtProperties;
         byte[] keyBytes = Base64.getDecoder().decode(jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8));
         System.out.println(keyBytes);

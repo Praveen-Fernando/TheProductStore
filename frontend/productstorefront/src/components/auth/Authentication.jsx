@@ -12,7 +12,6 @@ const Authentication = () => {
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    console.log("Login clicked");
     window.location.reload();
     window.location.href = "/LoggedUser";
   };
@@ -21,12 +20,10 @@ const Authentication = () => {
     const logout = window.confirm("Are you Sure?");
     if (logout) {
       UserService.logout();
-      console.log("button was clicked");
       window.location.reload();
       window.location.href = "/home";
     }
 
-    console.log("button was clicked");
     setIsAuthenticated(false);
   };
 
@@ -39,7 +36,6 @@ const Authentication = () => {
       const token = localStorage.getItem("token"); // Retrieve the token from localStorage
       const response = await UserService.getUserProfile(token);
       setProfileInfo(response.user);
-      console.log(response.user);
     } catch (error) {
       console.error("Error fetching profile information:", error);
     }

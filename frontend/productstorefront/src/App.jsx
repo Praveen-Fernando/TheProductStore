@@ -18,13 +18,16 @@ import LoggedUser from "./components/userspage/LoggedUser";
 import ManageProfile from "./components/userspage/ManageProfile";
 import Points from "./components/userspage/Points";
 import Authentication from "./components/auth/Authentication";
+import EditProfile from "./components/userspage/EditProfile";
+import TestComponent from "./components/sub-components/TestComponent";
+import Contents from "./components/userspage/Contents";
 
 function App() {
   const { isAuthenticated } = Authentication();
 
   return (
     <BrowserRouter>
-      <div className="App">
+      <div>
         {isAuthenticated ? (
           UserService.buyerOnly() ? (
             <PublicHeader />
@@ -35,7 +38,7 @@ function App() {
           <PublicHeader />
         )}
 
-        <div className="content" class="flex flex-col h-screen justify-between">
+        <div>
           <Routes>
             <Route exact path="*" element={<Home />} />
             <Route exact path="/home" element={<Home />} />
@@ -51,6 +54,8 @@ function App() {
 
             {/* User Account  */}
             <Route path="/profile" element={<Profile />} />
+            <Route path="/update-user/:userId" element={<EditProfile />} />
+            <Route path="/content" element={<Contents />} />
 
             <Route path="/LoggedUser" element={<LoggedUser />} />
             <Route
@@ -65,7 +70,7 @@ function App() {
                   path="/admin/user-management"
                   element={<UserManagement />}
                 />
-                <Route path="/update-user/:userId" element={<UpdateUser />} />
+                <Route path="/update-user/:userId" element={<EditProfile />} />
               </>
             )}
 

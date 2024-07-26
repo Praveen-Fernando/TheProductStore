@@ -23,8 +23,8 @@ export default function LoggedComponent() {
   }, []);
 
   return (
-    <div>
-      <div class="relative" ref={dropdownRef}>
+    <div class="pr-2">
+      <div class="relative pr-25" ref={dropdownRef}>
         <div class="flex items-center cursor-pointer" onClick={toggleDropdown}>
           <img
             class="w-8 h-8 rounded-full"
@@ -45,7 +45,7 @@ export default function LoggedComponent() {
 
             <Link to="/LoggedUser">
               <a href="#" class="block px-4 py-2 hover:bg-gray-100">
-                Settings
+                Profile
               </a>
             </Link>
             <Link to="/">

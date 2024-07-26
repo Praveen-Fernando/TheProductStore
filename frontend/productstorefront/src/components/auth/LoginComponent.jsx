@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function LoginComponent() {
   return (
     <div>
-      <div class="flex items-center md:order-2 space-x-1 md:space-x-2 rtl:space-x-reverse">
+      <div class="flex items-center md:order-2 space-x-1 md:space-x-2 rtl:space-x-reverse pr-2">
         <Link to="/login">
           <a
             href="#"

@@ -37,7 +37,7 @@ public class UserController {
         return ResponseEntity.ok(userManagementService.getAllUsers());
     }
 
-    @GetMapping("/admin/get-user/{userId}")
+    @GetMapping("/adminuser/get-user/{userId}")
     public ResponseEntity<ReqRes> getUserById(@PathVariable Integer userId){
         return ResponseEntity.ok(userManagementService.getUserById(userId));
     }
@@ -50,12 +50,12 @@ public class UserController {
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
-    @PutMapping("/admin/update/{user_id}")
+    @PutMapping("/adminuser/update/{user_id}")
     public ResponseEntity<ReqRes> updateUser(@PathVariable Integer user_id, @RequestBody User user){
         return ResponseEntity.ok(userManagementService.updateUser(user_id, user));
     }
 
-   @DeleteMapping("/admin/delete/{userId}")
+   @DeleteMapping("/adminuser/delete/{userId}")
     public ResponseEntity<ReqRes> deleteUser(@PathVariable Integer userId){
         return ResponseEntity.ok(userManagementService.deleteUser(userId));
     }

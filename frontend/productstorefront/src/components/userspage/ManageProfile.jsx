@@ -28,10 +28,7 @@ export default function ManageProfile() {
         <div class="border bottom-3 p-2">
           {" "}
           <h3 class=" text-left text-lg font-extrabold text-black-900 dark:text-black">
-            Personal Profile{"    "}
-            <a href="#" class="font-light text-base text">
-              |Edit
-            </a>
+            Personal Profile
           </h3>
           <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt class="text-sm font-medium text-gray-500">Name</dt>
@@ -47,12 +44,8 @@ export default function ManageProfile() {
           </div>
         </div>
         <div class="border bottom-3 p-2">
-          {" "}
           <h3 class="text-left text-lg font-extrabold text-black-900 dark:text-black">
-            Address Book{"    "}
-            <a href="#" class="font-light text-base">
-              |Edit
-            </a>
+            Address Book
           </h3>
           <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
             <dt class="text-sm font-medium text-gray-500">Address</dt>
