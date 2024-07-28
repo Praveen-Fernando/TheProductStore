@@ -21,10 +21,9 @@ import org.slf4j.Logger;
 public class JWTUtils {
     private final JwtProperties jwtProperties;
     private final SecretKey Key;
-    private static final Logger logger = LoggerFactory.getLogger(JWTUtils.class);
 
     public JWTUtils(JwtProperties jwtProperties){
-        logger.info("Performing an action");
+
         this.jwtProperties = jwtProperties;
         byte[] keyBytes = Base64.getDecoder().decode(jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8));
         System.out.println(keyBytes);

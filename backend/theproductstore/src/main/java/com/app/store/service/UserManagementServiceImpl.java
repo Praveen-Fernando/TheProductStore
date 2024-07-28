@@ -17,11 +17,11 @@ public interface UserManagementServiceImpl {
 
     ReqRes getAllUsers();
 
-    ReqRes getUserById(Integer user_id);
+    ReqRes getUserByToken(String token);
 
-    ReqRes updateUser(Integer user_id, User updatedUser);
+    ReqRes updateUserByToken(String token, User updatedUser);
 
-    ReqRes deleteUser(Integer user_id);
+    ReqRes deleteUserByToken(String token);
 
     ReqRes getMyInfo(String email);
 

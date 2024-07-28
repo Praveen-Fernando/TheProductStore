@@ -4,9 +4,11 @@ import { UserService } from "../service/UserService";
 import { useEffect, useState } from "react";
 
 export default function EditProfile() {
-  //const { profileInfo } = Authentication();
+  const { profileInfo } = Authentication();
   const navigate = useNavigate();
-  const { userId } = useParams();
+  const { token } = useParams();
+  const [error, setError] = useState(null);
+  const [timestamp, setTimestamp] = useState(Date.now());
 
   const [userData, setUserData] = useState({
     name: "",
@@ -17,23 +19,25 @@ export default function EditProfile() {
     address: "",
   });
 
-  useEffect(() => {
-    fetchUser(userId);
-  }, [userId]);
-
-  const fetchUser = async (userId) => {
+  const fetchUser = async (token) => {
     try {
-      const token = localStorage.getItem("token");
-      const response = await UserService.getUserById(userId, token);
+      const response = await UserService.getUserByToken(token);
       const { name, email, role, contact, dob, gender, address } =
         response.user;
+
       setUserData({ name, email, role, contact, dob, gender, address });
       console.log(userData);
     } catch (err) {
       console.error("Error fetching user data:", err);
       setError(err.message);
+      navigate("/Unauthorized");
+      window.location.reload();
     }
   };
+
+  useEffect(() => {
+    fetchUser(token);
+  }, [token]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -51,8 +55,8 @@ export default function EditProfile() {
       );
 
       if (confirmUpdate) {
-        const token = localStorage.getItem("token");
-        const res = await UserService.updateUser(userId, userData, token);
+        //const token = localStorage.getItem("token");
+        const res = await UserService.updateUserByToken(userData, token);
         console.log(res);
         // Redirect to profile page or display a success message
         navigate("/content");

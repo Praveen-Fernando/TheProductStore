@@ -37,9 +37,14 @@ public class UserController {
         return ResponseEntity.ok(userManagementService.getAllUsers());
     }
 
-    @GetMapping("/adminuser/get-user/{userId}")
-    public ResponseEntity<ReqRes> getUserById(@PathVariable Integer userId){
-        return ResponseEntity.ok(userManagementService.getUserById(userId));
+
+    @GetMapping("/adminuser/get-user/{token}")
+    public ResponseEntity<ReqRes> getByToken(@PathVariable String token){
+        //String jwtToken = token.substring(7);
+        ReqRes reqRes = userManagementService.getUserByToken(token);
+        System.out.println("From controller:" +reqRes);
+
+        return ResponseEntity.ok(reqRes);
     }
 
     @GetMapping("/adminuser/get-profile")
@@ -50,13 +55,15 @@ public class UserController {
         return ResponseEntity.status(response.getStatusCode()).body(response);
     }
 
-    @PutMapping("/adminuser/update/{user_id}")
-    public ResponseEntity<ReqRes> updateUser(@PathVariable Integer user_id, @RequestBody User user){
-        return ResponseEntity.ok(userManagementService.updateUser(user_id, user));
+    @PutMapping("/adminuser/update/{token}")
+    public ResponseEntity<ReqRes> updateUser(@PathVariable String token, @RequestBody User user){
+        ReqRes reqRes = userManagementService.updateUserByToken(token, user);
+        return ResponseEntity.ok(reqRes);
     }
 
-   @DeleteMapping("/adminuser/delete/{userId}")
-    public ResponseEntity<ReqRes> deleteUser(@PathVariable Integer userId){
-        return ResponseEntity.ok(userManagementService.deleteUser(userId));
+   @DeleteMapping("/adminuser/delete/{token}")
+    public ResponseEntity<ReqRes> deleteUser(@PathVariable String token){
+       ReqRes reqRes = userManagementService.deleteUserByToken(token);
+       return ResponseEntity.ok(reqRes);
     }
 }

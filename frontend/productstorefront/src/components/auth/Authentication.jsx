@@ -21,7 +21,7 @@ const Authentication = () => {
     if (logout) {
       UserService.logout();
       window.location.reload();
-      window.location.href = "/home";
+      window.location.href = "/";
     }
 
     setIsAuthenticated(false);
@@ -37,6 +37,7 @@ const Authentication = () => {
       const response = await UserService.getUserProfile(token);
       setProfileInfo(response.user);
     } catch (error) {
+      UserService.logout();
       console.error("Error fetching profile information:", error);
     }
   };

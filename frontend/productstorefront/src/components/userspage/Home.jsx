@@ -1,9 +1,7 @@
 import Banner from "../sub-components/Banner";
-import BannerSlider from "../sub-components/BannerSlider";
-import Benefits from "../sub-components/BenefitsRow";
+import Benefits from "../sub-components/Benefits";
 import FastSaleProducts from "../sub-components/FastSaleProducts ";
 import ProductCategory from "../sub-components/ProductCategory";
-import Sidebar from "../sub-components/Sidebar";
 
 export default function Home() {
   return (

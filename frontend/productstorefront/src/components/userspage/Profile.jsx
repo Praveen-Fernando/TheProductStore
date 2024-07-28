@@ -1,11 +1,12 @@
 import Authentication from "../auth/Authentication";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { UserService } from "../service/UserService";
 
 export default function Profile() {
   const { profileInfo } = Authentication();
   const navigate = useNavigate();
-  console.log("Clicked" + profileInfo.user_id);
+  //const {token } = useParams();
+  const token = localStorage.getItem("token");
 
   const deleteUser = async (user_id) => {
     try {
@@ -15,9 +16,9 @@ export default function Profile() {
       );
       if (confirmDelete) {
         const token = localStorage.getItem("token");
-        await UserService.deleteUser(user_id, token);
+        await UserService.deleteUser(token);
         window.location.reload();
-        window.location.href = "/home";
+        window.location.href = "/";
       }
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -75,7 +76,7 @@ export default function Profile() {
             type="button"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           >
-            <Link to={`/update-user/${profileInfo.user_id}`}>Edit Profile</Link>
+            <Link to={`/update-user/${token}`}>Edit Profile</Link>
           </button>
         </div>
       </div>

@@ -58,7 +58,7 @@ export default function AuthenticatedHeader() {
               </Link>
 
               {isAuthenticated && (
-                <Link to="/home">
+                <Link to="/">
                   <a
                     href="#"
                     onClick={handleLogout}

@@ -21,6 +21,8 @@ import Authentication from "./components/auth/Authentication";
 import EditProfile from "./components/userspage/EditProfile";
 import TestComponent from "./components/sub-components/TestComponent";
 import Contents from "./components/userspage/Contents";
+import NotFound404 from "./components/userspage/NotFound404";
+import Unauthorized from "./components/userspage/Unauthorized";
 
 function App() {
   const { isAuthenticated } = Authentication();
@@ -40,23 +42,19 @@ function App() {
 
         <div>
           <Routes>
-            <Route exact path="*" element={<Home />} />
-            <Route exact path="/home" element={<Home />} />
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/Unauthorized" element={<Unauthorized />} />
             <Route exact path="/aboutus" element={<AboutUs />} />
             <Route exact path="/contactus" element={<ContactUs />} />
-
             {/* User Account login/Registraion */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
-
             {/* Seller Registration */}
             <Route path="/sellerregister" element={<SellerRegistration />} />
-
             {/* User Account  */}
             <Route path="/profile" element={<Profile />} />
-            <Route path="/update-user/:userId" element={<EditProfile />} />
+            <Route path="/update-user/:token" element={<EditProfile />} />
             <Route path="/content" element={<Contents />} />
-
             <Route path="/LoggedUser" element={<LoggedUser />} />
             <Route
               path="/LoggedUser/manageprofile"
@@ -73,10 +71,10 @@ function App() {
                 <Route path="/update-user/:userId" element={<EditProfile />} />
               </>
             )}
-
             {/* {UserService.buyerOnly() && <></>} */}
-
             <Route path="/login" element={<Navigate to="/login" />} />
+
+            <Route path="*" element={<NotFound404 />} />
           </Routes>
         </div>
 

@@ -10,7 +10,7 @@ export default function PublicHeader() {
   return (
     <div class="bg-white border-gray-200 dark:bg-gray-900 p-4">
       <div class="flex flex-wrap justify-end items-center mx-auto text-base max-w-screen-xl">
-        <a href="/home" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
           <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"></span>
         </a>
         <div class="flex items-center space-x-6 rtl:space-x-reverse">
