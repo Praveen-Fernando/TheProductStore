@@ -33,6 +33,20 @@ export class ProductService {
     }
   }
 
+  static async getCurrentUserProduct(token) {
+    try {
+      const response = await axios.get(
+        `${ProductService.BASE_URL}/seller/myproducts`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async getProductByName(productName) {
     try {
       const response = await axios.get(

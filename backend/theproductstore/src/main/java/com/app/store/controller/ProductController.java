@@ -28,6 +28,12 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/seller/myproducts")
+    public ResponseEntity<List<Product>> getCurrentUsersProducts(){
+        List<Product> products = productService.findBySellerEmail();
+        return ResponseEntity.ok(products);
+    }
+
     @GetMapping("/public/products{productName}")
     public ResponseEntity<List<Product>> getByProductName(@PathVariable("productName") String productName) {
         return ResponseEntity.ok(productService.findAllProducts());

@@ -68,151 +68,122 @@ export default function EditProfile() {
   };
 
   return (
-    <div class="bg-gray-900">
-      <h2>Update User</h2>
-      <form class="max-w-md mx-auto" onSubmit={handleSubmit}>
-        <div class="grid md:grid-cols-2 md:gap-6">
-          <div class="relative z-0 w-full mb-5 group">
-            <input
-              type="text"
-              name="name"
-              value={userData.name}
-              onChange={handleInputChange}
-              id="floating_first_name"
-              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              for="floating_first_name"
-              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Full name
-            </label>
-          </div>
-          <div class="relative z-0 w-full mb-5 group">
-            <input
-              type="tel"
-              name="contact"
-              value={userData.contact}
-              onChange={handleInputChange}
-              id="floating_phone"
-              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              for="floating_phone"
-              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Phone number (+94)
-            </label>
-          </div>
-        </div>
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            type="text"
-            name="address"
-            value={userData.address}
-            onChange={handleInputChange}
-            id="floating_address"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
+    <div class="flex justify-center items-center p-4">
+      <div class="flex flex-col w-full max-w-6xl bg-white rounded-lg shadow-lg md:flex-row">
+        <div className="flex flex-col items-center w-full p-4 border-b md:w-1/4 md:border-b-0 md:border-r">
+          <img
+            src="https://via.placeholder.com/100"
+            alt="Profile"
+            className="mb-4 rounded-full"
           />
-
-          <label
-            for="floating_address"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Address
-          </label>
+          <h2 className="mb-2 text-xl font-bold">{profileInfo.name}</h2>
+          <p className="text-gray-600">{profileInfo.email}</p>
         </div>
-        <div class="relative z-0 w-full mb-5 group">
-          <input
-            type="email"
-            name="email"
-            value={userData.email}
-            onChange={handleInputChange}
-            id="floating_email"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="floating_email"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-          >
-            Email address
-          </label>
-        </div>
+        <form class="w-full p-6 md:w-3/4" onSubmit={handleSubmit}>
+          <div className="w-full p-6 md:w-3/4">
+            <div className="flex flex-col space-y-4">
+              <h2 className="mb-4 text-2xl font-bold">Profile Settings</h2>
+              <div className="flex flex-wrap -mx-2">
+                <div className="w-full px-2 md:w-1/2">
+                  <label className="block mb-2">Full Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    className="w-full p-2 border rounded"
+                    value={userData.name}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="w-full px-2 md:w-1/2">
+                  <label className="block mb-2">Email Name</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="w-full p-2 border rounded "
+                    value={userData.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
 
-        <div class="grid md:grid-cols-2 md:gap-6">
-          <div class="relative z-0 w-full mb-5 group">
-            <input
-              type="date"
-              name="dob"
-              value={userData.dob}
-              onChange={handleInputChange}
-              class="block py-2.5 px-0 w-full text-sm text-white bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              for="floating_password"
-              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Date of Birth
-            </label>
+              <div className="flex flex-wrap -mx-2">
+                <div className="w-full px-2 md:w-1/2">
+                  <label className="block mb-2">Phone Number</label>
+                  <input
+                    type="text"
+                    name="contact"
+                    className="w-full p-2 border rounded"
+                    value={userData.contact}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="w-full px-2 md:w-1/2">
+                  <label className="block mb-2">Gender</label>
+
+                  <select
+                    name="gender"
+                    value={userData.gender}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border rounded"
+                    required
+                  >
+                    <option
+                      value=""
+                      class="block px-4 py-2 text-sm text-gray-700"
+                    >
+                      Select
+                    </option>
+                    <option
+                      value="male"
+                      class="block px-4 py-2 text-sm text-gray-700"
+                    >
+                      Male
+                    </option>
+                    <option
+                      value="female"
+                      class="block px-4 py-2 text-sm text-gray-700"
+                    >
+                      Female
+                    </option>
+                    <option
+                      value="other"
+                      class="block px-4 py-2 text-sm text-gray-700"
+                    >
+                      Other
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap -mx-2">
+                <div className="w-full px-2 md:w-1/2">
+                  <label className="block mb-2">Address</label>
+                  <input
+                    type="text"
+                    className="w-full p-2 border rounded"
+                    value={userData.address}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="w-full px-2 md:w-1/2">
+                  <label className="block mb-2">Date of Birth</label>
+                  <input
+                    type="date"
+                    name="dob"
+                    className="w-full p-2 border rounded"
+                    value={userData.dob}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </div>
+            <br />
+            <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+              Save Profile
+            </button>
           </div>
-          <div class="relative z-0 w-full mb-5 group">
-            <select
-              name="gender"
-              value={userData.gender}
-              onChange={handleInputChange}
-              class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-800 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            >
-              <option value="" class="block px-4 py-2 text-sm text-gray-700">
-                Select
-              </option>
-              <option
-                value="male"
-                class="block px-4 py-2 text-sm text-gray-700"
-              >
-                Male
-              </option>
-              <option
-                value="female"
-                class="block px-4 py-2 text-sm text-gray-700"
-              >
-                Female
-              </option>
-              <option
-                value="other"
-                class="block px-4 py-2 text-sm text-gray-700"
-              >
-                Other
-              </option>
-            </select>
-
-            <label
-              for="floating_password"
-              class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Gender
-            </label>
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          Update Profile
-        </button>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

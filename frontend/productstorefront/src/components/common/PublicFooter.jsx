@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function PublicFooter() {
   return (
-    <footer className="mt-auto bg-white dark:bg-gray-900 ">
+    <footer className="mt-auto bg-white dark:bg-gray-900">
       <div className="w-full max-w-screen-xl p-4 py-6 mx-auto lg:py-8">
         <div className="flex flex-col md:flex-row md:justify-between">
           <div className="mb-6 md:mb-0">

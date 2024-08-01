@@ -19,107 +19,82 @@ export default function ManageProfile() {
   };
 
   return (
-    <div class="gap-4">
-      <h1 class=" text-left text-lg font-extrabold text-black-900 dark:text-black">
-        Manage Profile
-      </h1>
-      <br />
-      <div class="grid grid-cols-2 gap-4 place-content-stretch h-48">
-        <div class="border bottom-3 p-2">
-          {" "}
-          <h3 class=" text-left text-lg font-extrabold text-black-900 dark:text-black">
-            Personal Profile
-          </h3>
-          <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Name</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {profileInfo.name}
-            </dd>
+    <div className="">
+      {/* Main Content */}
+      <div className="p-4 bg-white ">
+        <h2 className="mb-4 text-2xl font-bold">Manage Profile</h2>
+        <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2">
+          {/* Personal Profile */}
+          <div className="p-4 border rounded-lg">
+            <h3 className="mb-2 text-lg font-bold">Personal Profile</h3>
+            <p>
+              <strong>Name:</strong> {profileInfo.name}
+            </p>
+            <p>
+              <strong>Email:</strong> {profileInfo.email}
+            </p>
           </div>
-          <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Email</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {profileInfo.email}
-            </dd>
+
+          {/* Address Book */}
+          <div className="p-4 border rounded-lg">
+            <h3 className="mb-2 text-lg font-bold">Address Book</h3>
+            <p>
+              <strong>Address:</strong> {profileInfo.address}
+            </p>
+            <p>
+              <strong>Contact:</strong> {profileInfo.contact}
+            </p>
           </div>
         </div>
-        <div class="border bottom-3 p-2">
-          <h3 class="text-left text-lg font-extrabold text-black-900 dark:text-black">
-            Address Book
-          </h3>
-          <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Address</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {profileInfo.address}
-            </dd>
-          </div>
-          <div class="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-            <dt class="text-sm font-medium text-gray-500">Contact</dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-              {profileInfo.contact}
-            </dd>
+
+        {/* Recent Orders */}
+        <div className="p-4 border rounded-lg">
+          <h3 className="mb-2 text-lg font-bold">Recent Orders</h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                    Order #
+                  </th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                    Placed On
+                  </th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                    Item
+                  </th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                    Amount
+                  </th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                <tr>
+                  <td className="px-6 py-4 whitespace-nowrap">Bonnie Green</td>
+                  <td className="px-6 py-4 whitespace-nowrap">Designer</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <img
+                      src="https://via.placeholder.com/20"
+                      alt="Item"
+                      className="inline-block mr-2"
+                    />
+                    Jese
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">Designer</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <a href="#" className="text-blue-600 hover:underline">
+                      Manage
+                    </a>
+                  </td>
+                </tr>
+                {/* Add more rows as needed */}
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
-      <br />
-      <div class="grid grid-cols-1 gap-4 place-content-stretch h-48 border bottom-3 p-2">
-        <h3 class="text-left text-lg font-extrabold text-black-900 dark:text-black">
-          Recent Orders
-        </h3>
-
-        <table class="w-full text-sm text-left rtl:text-right text-gray-800 dark:text-gray-400 table-auto">
-          <thead class="text-xs text-black font-bold uppercase   ">
-            <tr>
-              <th scope="col" class="px-6 py-3">
-                Order #
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Placed On
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Item
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Amount
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Action
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="bg-white border-b dark:border-gray-700 ">
-              <th
-                scope="row"
-                class="flex items-center px-6 py-4 font-medium text-gray-600 whitespace-nowrap dark:text-black"
-              >
-                <div class="py-4">
-                  <div class="text-base font-semibold">Bonnie Green</div>
-                </div>
-              </th>
-              <td class="px-6 py-4">Designer</td>
-              <td class="px-6 py-4">
-                <div class="flex items-center">
-                  <img
-                    class="w-10 h-10"
-                    src="/docs/images/people/profile-picture-3.jpg"
-                    alt="Jese image"
-                  />
-                </div>
-              </td>
-              <td class="px-6 py-4">Designer</td>
-
-              <td class="px-6 py-4">
-                <a
-                  href="#"
-                  class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Manage
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   );

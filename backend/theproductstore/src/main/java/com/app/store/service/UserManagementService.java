@@ -7,9 +7,6 @@ import com.app.store.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -122,36 +119,6 @@ public class UserManagementService implements UserManagementServiceImpl {
         }
     }
 
-
-
-//    public ReqRes getUserById(Integer user_id) {
-//        ReqRes reqRes = new ReqRes();
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//
-//        try {
-//            Optional<User> currentUser = userRepository.findByEmail(userDetails.getUsername());
-//
-//
-//            if (currentUser == null || currentUser.get().getUser_id() != user_id ) {
-//                reqRes.setStatusCode(403);
-//                reqRes.setMessage("Access Denied");
-//                System.out.println("-------------" +currentUser);
-//            }
-//
-//            User userId = userRepository.findById(user_id).orElseThrow(() -> new RuntimeException("User Not Found"));
-//            reqRes.setUser(userId);
-//            reqRes.setStatusCode(200);
-//            reqRes.setMessage("User with ID " + userId + "founded");
-//
-//
-//        } catch (Exception ex) {
-//            reqRes.setStatusCode(500);
-//            reqRes.setMessage("Error occurred: " + ex.getMessage());
-//        }
-//        return reqRes;
-//    }
-
     @Override
     public ReqRes getUserByToken(String token) {
         ReqRes reqRes = new ReqRes();
@@ -206,89 +173,29 @@ public class UserManagementService implements UserManagementServiceImpl {
         return reqRes;
     }
 
-//    public ReqRes updateUser(Integer user_id, User updatedUser) {
-//        ReqRes reqRes = new ReqRes();
-//
-//        try {
-//            Optional<User> optionalUser = userRepository.findById(user_id);
-//            if (optionalUser.isPresent()) {
-//                User currentUser = optionalUser.get();
-//                currentUser.setEmail(updatedUser.getEmail());
-//                currentUser.setName(updatedUser.getName());
-//                currentUser.setRole(updatedUser.getRole());
-//                currentUser.setContact(updatedUser.getContact());
-//                currentUser.setDob(updatedUser.getDob());
-//                currentUser.setGender(updatedUser.getGender());
-//                currentUser.setAddress(updatedUser.getAddress());
-//
-//                if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
-//                    currentUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-//                }
-//
-//                userRepository.save(currentUser);
-//                reqRes.setStatusCode(200);
-//                reqRes.setMessage("Updated Successfully");
-//            } else {
-//                reqRes.setStatusCode(404);
-//                reqRes.setMessage("User not found");
-//            }
-//        } catch (Exception ex) {
-//            reqRes.setStatusCode(500);
-//            reqRes.setMessage("Error occurred: " + ex.getMessage());
-//        }
-//        return reqRes;
-//    }
+    public ReqRes deleteUserByToken(String token) {
 
-        public ReqRes deleteUserByToken(String token) {
+        ReqRes reqRes = new ReqRes();
 
-            ReqRes reqRes = new ReqRes();
+        try {
+            String username = jwtUtils.extractUsername(token);
+            User user = userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("User Not Found"));
 
-            try {
-                String username = jwtUtils.extractUsername(token);
-                User user = userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("User Not Found"));
-
-                Optional<User> userOptional = userRepository.findById(user.getUser_id());
-                if (userOptional.isPresent()) {
-                    userRepository.deleteById(user.getUser_id());
-                    reqRes.setStatusCode(200);
-                    reqRes.setMessage("User ID with " + user.getUser_id() + " Deleted Successfully");
-                } else {
-                    reqRes.setStatusCode(404);
-                    reqRes.setMessage("User not found");
-                }
-            } catch (Exception ex) {
-                reqRes.setStatusCode(500);
-                reqRes.setMessage("Error Occurred: " + ex.getMessage());
+            Optional<User> userOptional = userRepository.findById(user.getUser_id());
+            if (userOptional.isPresent()) {
+                userRepository.deleteById(user.getUser_id());
+                reqRes.setStatusCode(200);
+                reqRes.setMessage("User ID with " + user.getUser_id() + " Deleted Successfully");
+            } else {
+                reqRes.setStatusCode(404);
+                reqRes.setMessage("User not found");
             }
-            return reqRes;
+        } catch (Exception ex) {
+            reqRes.setStatusCode(500);
+            reqRes.setMessage("Error Occurred: " + ex.getMessage());
         }
-
-//    public ReqRes deleteUser(Integer user_id) {
-//
-//        ReqRes reqRes = new ReqRes();
-//
-//        try {
-//
-//            if (!user_id.equals(currentUserId)) {
-//                reqRes.setStatusCode(403);
-//                reqRes.setMessage("Unauthorized Access");
-//            }
-//
-//            Optional<User> userOptional = userRepository.findById(user_id);
-//            if (userOptional.isPresent()) {
-//                userRepository.deleteById(user_id);
-//                reqRes.setStatusCode(200);
-//                reqRes.setMessage("User ID with " + user_id + " Deleted Successfully");
-//            } else {
-//                reqRes.setStatusCode(404);
-//                reqRes.setMessage("User not found");
-//            }
-//        } catch (Exception ex) {
-//            reqRes.setStatusCode(500);
-//            reqRes.setMessage("Error Occurred: " + ex.getMessage());
-//        }
-//        return reqRes;
-//    }
+        return reqRes;
+    }
 
 
     public ReqRes getMyInfo(String email) {

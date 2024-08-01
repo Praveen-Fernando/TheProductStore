@@ -23,6 +23,10 @@ import TestComponent from "./components/sub-components/TestComponent";
 import Contents from "./components/userspage/Contents";
 import NotFound404 from "./components/userspage/NotFound404";
 import Unauthorized from "./components/userspage/Unauthorized";
+import Products from "./components/userspage/Products";
+import UpdateProduct from "./components/userspage/EditProduct";
+import EditProduct from "./components/userspage/EditProduct";
+import AddProduct from "./components/userspage/AddProduct";
 
 function App() {
   const { isAuthenticated } = Authentication();
@@ -69,6 +73,22 @@ function App() {
                   element={<UserManagement />}
                 />
                 <Route path="/update-user/:userId" element={<EditProfile />} />
+              </>
+            )}
+
+            {UserService.sellerOnly() && (
+              <>
+                <Route
+                  path="/admin/user-management"
+                  element={<UserManagement />}
+                />
+                <Route path="/productstore" element={<Products />} />
+                <Route path="/seller/addproduct" element={<AddProduct />} />
+                <Route path="/seller/editproduct" element={<EditProduct />} />
+                <Route
+                  path="/update-product/:productId"
+                  element={<EditProfile />}
+                />
               </>
             )}
             {/* {UserService.buyerOnly() && <></>} */}

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { UserService } from "../service/UserService";
+import { ProductService } from "../service/ProductService";
 
 const Authentication = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [profileInfo, setProfileInfo] = useState({});
+  const [productInfo, setProductInfo] = useState({});
 
   useEffect(() => {
     // Check if the user is authenticated initially
@@ -31,6 +33,10 @@ const Authentication = () => {
     fetchProfileInfo();
   }, []);
 
+  useEffect(() => {
+    fetchProductsInfo();
+  }, []);
+
   const fetchProfileInfo = async () => {
     try {
       const token = localStorage.getItem("token"); // Retrieve the token from localStorage
@@ -42,7 +48,24 @@ const Authentication = () => {
     }
   };
 
-  return { isAuthenticated, handleLogin, handleLogout, profileInfo };
+  const fetchProductsInfo = async () => {
+    try {
+      const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+      const response = await ProductService.getAllProducts();
+      setProductInfo(response);
+    } catch (error) {
+      //UserService.logout();
+      console.error("Error fetching profile information:", error);
+    }
+  };
+
+  return {
+    isAuthenticated,
+    handleLogin,
+    handleLogout,
+    profileInfo,
+    productInfo,
+  };
 };
 
 export default Authentication;
