@@ -27,6 +27,8 @@ import Products from "./components/userspage/Products";
 import UpdateProduct from "./components/userspage/EditProduct";
 import EditProduct from "./components/userspage/EditProduct";
 import AddProduct from "./components/userspage/AddProduct";
+import AdminDashboard from "./components/userspage/admin/AdminPanel";
+import AdminPanel from "./components/userspage/admin/AdminPanel";
 
 function App() {
   const { isAuthenticated } = Authentication();
@@ -34,9 +36,12 @@ function App() {
   return (
     <BrowserRouter>
       <div>
+        {/* Header Section*/}
         {isAuthenticated ? (
           UserService.buyerOnly() ? (
             <PublicHeader />
+          ) : UserService.adminOnly() ? (
+            ""
           ) : (
             <AuthenticatedHeader />
           )
@@ -44,6 +49,7 @@ function App() {
           <PublicHeader />
         )}
 
+        {/* Body Section*/}
         <div>
           <Routes>
             <Route exact path="/" element={<Home />} />
@@ -72,6 +78,7 @@ function App() {
                   path="/admin/user-management"
                   element={<UserManagement />}
                 />
+                <Route path="/admin" element={<AdminPanel />} />
                 <Route path="/update-user/:userId" element={<EditProfile />} />
               </>
             )}
@@ -98,20 +105,18 @@ function App() {
           </Routes>
         </div>
 
+        {/* Footer Section*/}
+
         {isAuthenticated ? (
           UserService.buyerOnly() ? (
-            <div>
-              <PublicFooter />
-            </div>
+            <PublicFooter />
+          ) : UserService.adminOnly() ? (
+            ""
           ) : (
-            <div>
-              <AuthenticatedFooter />
-            </div>
+            <AuthenticatedFooter />
           )
         ) : (
-          <div>
-            <PublicFooter />
-          </div>
+          <PublicFooter />
         )}
       </div>
     </BrowserRouter>
