@@ -55,7 +55,16 @@ public class ProductService implements ProductServiceImpl {
 
     @Override
     public Optional<Product> findByProductID(long productID) {
+//        Optional<Product> productData = productRepository.findById(productID);
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String currentUserEmail = authentication.getName();
+//
+//        if (currentUserEmail != (productData.get().getSellerEmail())) {
+//            return productData;
+//        }
+
         return productRepository.findById(productID);
+
     }
 
     @Override
@@ -64,7 +73,6 @@ public class ProductService implements ProductServiceImpl {
         productList.addAll(productRepository.findByProductCategory(productCategory));
         return productList;
     }
-
 
 
     public Product createProduct(Product product) {

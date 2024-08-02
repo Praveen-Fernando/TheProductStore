@@ -20,7 +20,10 @@ export default function Login() {
         localStorage.setItem("token", userData.token);
         localStorage.setItem("role", userData.role);
         handleLogin();
-        navigate("/LoggedUser");
+
+        UserService.isAdmin()
+          ? navigate("/adminpanel")
+          : navigate("/manageprofile");
       } else {
         setError(userData.message);
       }

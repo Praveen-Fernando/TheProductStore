@@ -18,10 +18,10 @@ export class ProductService {
     }
   }
 
-  static async updateProduct(product_Id, productData, token) {
+  static async updateProduct(productID, productData, token) {
     try {
-      const response = await axios.get(
-        `${ProductService.BASE_URL}/seller/product/${product_Id}`,
+      const response = await axios.put(
+        `${ProductService.BASE_URL}/seller/product/${productID}`,
         productData,
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -69,10 +69,10 @@ export class ProductService {
     }
   }
 
-  static async getProductById(product_Id, token) {
+  static async getProductById(productID, token) {
     try {
       const response = await axios.get(
-        `${ProductService.BASE_URL}/public/product/${product_Id}`,
+        `${ProductService.BASE_URL}/seller/${productID}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -94,10 +94,10 @@ export class ProductService {
     }
   }
 
-  static async deleteProduct(product_Id, token) {
+  static async deleteProduct(productID, token) {
     try {
       const response = await axios.get(
-        `${ProductService.BASE_URL}/seller/product/${product_Id}`,
+        `${ProductService.BASE_URL}/seller/product/${productID}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

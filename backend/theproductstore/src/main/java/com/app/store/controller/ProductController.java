@@ -34,12 +34,12 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/public/products{productName}")
+    @GetMapping("/seller/products{productName}")
     public ResponseEntity<List<Product>> getByProductName(@PathVariable("productName") String productName) {
         return ResponseEntity.ok(productService.findAllProducts());
     }
 
-    @GetMapping("/public/product/{productID}")
+    @GetMapping("/seller/{productID}")
     public ResponseEntity<Product> getProductById(@PathVariable("productID") long productID) {
         Optional<Product> productData = productService.findByProductID(productID);
 
@@ -70,7 +70,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/seller/product/{id}")
+    @PutMapping("/seller/product/{id}")
     public ResponseEntity<Product> updateCurrentProduct(@PathVariable("id") long productID, @RequestBody Product product){
         try{
             Product updatedProduct = productService.updateProduct(productID, product);

@@ -23,7 +23,7 @@ import AdminWorkflow from "./AdminWorkflow";
 import Authentication from "../../auth/Authentication";
 
 export default function AdminPanel() {
-  const { handleLogout } = Authentication();
+  const { productInfo, handleLogout } = Authentication();
   const [isSidebarVisible, setSidebarVisible] = useState(false);
   const [content, setContent] = useState(<AdminDashboard />);
 
@@ -165,7 +165,7 @@ export default function AdminPanel() {
             </a>
           </div>
           <div className="items-center space-x-4 lg:flex">
-            <span>Admin Name</span>
+            <span>{productInfo.name}</span>
           </div>
         </div>
         <p>{content}</p>

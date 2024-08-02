@@ -14,8 +14,11 @@ const Authentication = () => {
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    window.location.reload();
-    window.location.href = "/LoggedUser";
+    {
+      UserService.isAdmin()
+        ? (window.location.href = "/adminpanel")
+        : (window.location.reload(), (window.location.href = "/manageprofile"));
+    }
   };
 
   const handleLogout = () => {
