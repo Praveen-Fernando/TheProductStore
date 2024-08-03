@@ -2,11 +2,18 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Authentication from "../../auth/Authentication";
 import { ProductService } from "../../service/ProductService";
+import { useAlert } from "react-alert";
+import {
+  TopRightAlertContext,
+  options,
+} from "../../sub-components/AlertProviderWrapper";
 
 export default function AddProduct() {
   const { profileInfo } = Authentication();
   const navigate = useNavigate();
   const currenttime = new Date().toISOString();
+  const alert = useAlert();
+  const topRightAlert = useAlert(TopRightAlertContext);
 
   useEffect(() => {
     // Fetch the user profile email and set it in the state
@@ -36,8 +43,8 @@ export default function AddProduct() {
     try {
       const token = localStorage.getItem("token"); // Retrieve the token from localStorage
       await ProductService.addProduct(productformData, token);
-      alert("Product Added");
       navigate("/productStore");
+      insertAlert();
 
       setProductFormData({
         productName: "",
@@ -54,6 +61,10 @@ export default function AddProduct() {
       alert("A error occurred while adding the product");
       window.location.reload();
     }
+  };
+
+  const insertAlert = () => {
+    topRightAlert.show("Product Added!", options);
   };
 
   return (

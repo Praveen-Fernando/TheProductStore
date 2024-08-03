@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/")
@@ -65,5 +67,12 @@ public class UserController {
     public ResponseEntity<ReqRes> deleteUser(@PathVariable String token){
        ReqRes reqRes = userManagementService.deleteUserByToken(token);
        return ResponseEntity.ok(reqRes);
+    }
+
+    //Admin Panel Controller
+    @GetMapping("admin/countUsers")
+    public ResponseEntity<HashMap<String, Long>> getCount(){
+        HashMap<String, Long> userCount = userManagementService.getCount();
+        return ResponseEntity.ok(userCount);
     }
 }

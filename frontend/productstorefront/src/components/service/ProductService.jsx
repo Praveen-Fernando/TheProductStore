@@ -96,7 +96,7 @@ export class ProductService {
 
   static async deleteProduct(productID, token) {
     try {
-      const response = await axios.get(
+      const response = await axios.delete(
         `${ProductService.BASE_URL}/seller/product/${productID}`,
         {
           headers: { Authorization: `Bearer ${token}` },

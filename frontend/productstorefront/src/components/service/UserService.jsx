@@ -100,6 +100,21 @@ export class UserService {
     }
   }
 
+  //Admin Services
+  static async getTotalUsers(token) {
+    try {
+      const response = await axios.get(
+        `${UserService.BASE_URL}/admin/countUsers`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   /** AUTHENTICATION CHECKER */
   static logout() {
     localStorage.removeItem(`token`);

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -217,6 +218,23 @@ public class UserManagementService implements UserManagementServiceImpl {
             reqRes.setMessage("Error occurred: " + ex.getMessage());
         }
         return reqRes;
+    }
+
+    //Admin Panel
+
+    public long countSellers(){
+        return userRepository.countByRole("SELLER");
+    }
+
+    public long countBuyers(){
+        return userRepository.countByRole("BUYER");
+    }
+
+    public HashMap<String, Long> getCount(){
+        HashMap<String, Long> countUsers = new HashMap<>();
+        countUsers.put("SELLER", countSellers());
+        countUsers.put("BUYER", countBuyers());
+        return  countUsers;
     }
 
 }

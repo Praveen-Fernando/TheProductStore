@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import MainSideBar from "./MainSideBar";
 import { UserService } from "../../service/UserService";
 
+
 export default function Profile() {
   const { profileInfo } = Authentication();
   const navigate = useNavigate();

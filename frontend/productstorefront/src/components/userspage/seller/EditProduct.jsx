@@ -2,11 +2,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Authentication from "../../auth/Authentication";
 import { ProductService } from "../../service/ProductService";
+import { useAlert } from "react-alert";
+import {
+  TopRightAlertContext,
+  options,
+} from "../../sub-components/AlertProviderWrapper";
 
 export default function EditProduct() {
   const { profileInfo } = Authentication();
   const navigate = useNavigate();
   const { productID } = useParams();
+  const alert = useAlert();
+  const topRightAlert = useAlert(TopRightAlertContext);
 
   const [productData, setProductData] = useState({
     productName: "",
@@ -72,11 +79,37 @@ export default function EditProduct() {
         console.log(res);
         // Redirect to profile page or display a success message
         navigate("/productStore");
+        updateAlert();
       }
     } catch (error) {
       console.error("Error updating user profile:", error);
       alert(error);
     }
+  };
+
+  const updateAlert = () => {
+    topRightAlert.show("Product Updated!", options);
+  };
+
+  const deleteProduct = async (productID) => {
+    try {
+      // Prompt for confirmation before deleting the user
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this user?"
+      );
+      if (confirmDelete) {
+        const token = localStorage.getItem("token");
+        await ProductService.deleteProduct(productID, token);
+        navigate("/productStore");
+        deleteAlert();
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
+  const deleteAlert = () => {
+    topRightAlert.show("Product Deleted!", options);
   };
 
   return (
@@ -173,6 +206,13 @@ export default function EditProduct() {
             <br />
             <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
               Update Product
+            </button>
+            <button
+              type="button"
+              onClick={() => deleteProduct(productID)}
+              class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-900 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Delete Product
             </button>
           </div>
         </form>
