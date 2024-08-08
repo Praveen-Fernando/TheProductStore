@@ -46,7 +46,6 @@ public class User implements UserDetails {
 
     @Column(name = "address")
     private String address;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role));

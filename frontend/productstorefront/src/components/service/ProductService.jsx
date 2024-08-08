@@ -3,6 +3,48 @@ import axios from "axios";
 export class ProductService {
   static BASE_URL = "http://localhost:8080";
 
+  static async getProductCategoryTypes(token) {
+    try {
+      const response = await axios.get(
+        `${ProductService.BASE_URL}/seller/productCategories`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getProductBrands(token) {
+    try {
+      const response = await axios.get(
+        `${ProductService.BASE_URL}/seller/productBrands`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getProductStatus(token) {
+    try {
+      const response = await axios.get(
+        `${ProductService.BASE_URL}/seller/productStatus`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async addProduct(productData, token) {
     try {
       const response = await axios.post(

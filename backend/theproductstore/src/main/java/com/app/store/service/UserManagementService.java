@@ -9,11 +9,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserManagementService implements UserManagementServiceImpl {
@@ -155,6 +160,7 @@ public class UserManagementService implements UserManagementServiceImpl {
                 currentUser.setDob(updatedUser.getDob());
                 currentUser.setGender(updatedUser.getGender());
                 currentUser.setAddress(updatedUser.getAddress());
+
 
                 if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
                     currentUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));

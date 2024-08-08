@@ -55,11 +55,14 @@ export default function ProductStore() {
                         Amount
                       </th>
                       <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                        Status
+                      </th>
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         Action
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="text-sm bg-white divide-y divide-gray-200">
                     {productsInfo.map((product, index) => (
                       <tr key={index}>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -68,18 +71,14 @@ export default function ProductStore() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           {product.productStock}
                         </td>
-                        {/* <td className="px-6 py-4 whitespace-nowrap">
-                  <img
-                    src="https://via.placeholder.com/20"
-                    alt="Item"
-                    className="inline-block mr-2"
-                  />
-                </td> */}
                         <td className="px-6 py-4 whitespace-nowrap">
                           {product.productCategory}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {product.productPrice}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {product.productStatus}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <Link to={`/editproduct/${product.productID}`}>

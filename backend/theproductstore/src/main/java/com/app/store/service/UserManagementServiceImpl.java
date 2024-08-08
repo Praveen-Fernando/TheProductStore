@@ -4,6 +4,7 @@ package com.app.store.service;
 import com.app.store.model.ReqRes;
 import com.app.store.model.User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public interface UserManagementServiceImpl {

@@ -12,8 +12,6 @@ export default function EditProfile() {
   const { profileInfo } = Authentication();
   const navigate = useNavigate();
   const { token } = useParams();
-  const [error, setError] = useState(null);
-  const [timestamp, setTimestamp] = useState(Date.now());
   const alert = useAlert();
   const topRightAlert = useAlert(TopRightAlertContext);
 
@@ -172,6 +170,7 @@ export default function EditProfile() {
                   <label className="block mb-2">Address</label>
                   <input
                     type="text"
+                    name="address"
                     className="w-full p-2 border rounded"
                     value={userData.address}
                     onChange={handleInputChange}

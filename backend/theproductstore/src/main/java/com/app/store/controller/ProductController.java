@@ -1,12 +1,15 @@
 package com.app.store.controller;
 
+import com.app.store.enums.Brands;
 import com.app.store.enums.ProductCategoryTypes;
+import com.app.store.enums.ProductStatus;
 import com.app.store.model.Product;
 import com.app.store.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +20,21 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @GetMapping("/seller/productCategories")
+    public ProductCategoryTypes[] getCategories(){
+        return ProductCategoryTypes.values();
+    }
+
+    @GetMapping("/seller/productBrands")
+    public Brands[] getBrands(){
+        return Brands.values();
+    }
+
+    @GetMapping("/seller/productStatus")
+    public ProductStatus[] getStatus(){
+        return ProductStatus.values();
+    }
 
     @GetMapping("/public/products")
     public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String productName) {
@@ -60,10 +78,13 @@ public class ProductController {
         }
     }
 
+    /* Seller Control */
+
     @PostMapping("/seller/addproduct")
-    public ResponseEntity<Product> createNewProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> createNewProduct(@ModelAttribute Product product,
+                                                    @RequestParam("files") MultipartFile[] files) {
         try{
-            Product createdProduct = productService.createProduct(product);
+            Product createdProduct = productService.createProduct(product, files);
             return ResponseEntity.ok(createdProduct);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -71,7 +92,7 @@ public class ProductController {
     }
 
     @PutMapping("/seller/product/{id}")
-    public ResponseEntity<Product> updateCurrentProduct(@PathVariable("id") long productID, @RequestBody Product product){
+    public ResponseEntity<Product> updateCurrentProduct(@PathVariable("id") long productID, @ModelAttribute Product product){
         try{
             Product updatedProduct = productService.updateProduct(productID, product);
             return ResponseEntity.ok(updatedProduct);

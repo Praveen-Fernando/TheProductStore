@@ -12,6 +12,12 @@ export default function EditProduct() {
   const { profileInfo } = Authentication();
   const navigate = useNavigate();
   const { productID } = useParams();
+  const [productCategories, setProductCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [productBrands, setproductBrands] = useState([]);
+  const [selectedBrand, setselectedBrand] = useState("");
+  const [productStatus, setproductStatus] = useState([]);
+  const [selectedStatus, setselectedStatus] = useState("");
   const alert = useAlert();
   const topRightAlert = useAlert(TopRightAlertContext);
 
@@ -20,7 +26,17 @@ export default function EditProduct() {
     productStock: "",
     productPrice: "",
     productCategory: "",
+    productDescription: "",
+    productBrand: "",
+    productStatus: "",
+    productImages: [],
   });
+
+  useEffect(() => {}, []);
+
+  useEffect(() => {
+    fetchproductById(productID);
+  }, [productID]);
 
   const fetchproductById = async (productID) => {
     try {
@@ -28,12 +44,17 @@ export default function EditProduct() {
       const product = await ProductService.getProductById(productID, token);
       const {
         productName,
-        productStock,
         productPrice,
         productCategory,
+        productDescription,
         productAddedDate,
+        productStock,
+        productBrand,
+        productStatus,
         sellerEmail,
+        productImages: [],
       } = product;
+      console.log(product);
 
       setProductData({
         productName,
@@ -41,7 +62,11 @@ export default function EditProduct() {
         productPrice,
         productCategory,
         productAddedDate,
+        productDescription,
+        productBrand,
+        productStatus,
         sellerEmail,
+        productImages: [],
       });
       console.log("Product data :" + productData);
     } catch (err) {
@@ -51,8 +76,48 @@ export default function EditProduct() {
   };
 
   useEffect(() => {
-    fetchproductById(productID);
-  }, [productID]);
+    fetchproductCategories();
+  }, []);
+
+  const fetchproductCategories = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const categories = await ProductService.getProductCategoryTypes(token);
+      setProductCategories(categories);
+    } catch (error) {
+      console.log("Error fetching Product Categories" + error);
+    }
+  };
+
+  /* Fetch Brands */
+  useEffect(() => {
+    fetchproductBrands();
+  }, []);
+
+  const fetchproductBrands = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const brands = await ProductService.getProductBrands(token);
+      setproductBrands(brands);
+    } catch (error) {
+      console.log("Error fetching Product Categories" + error);
+    }
+  };
+
+  /* Fetch Status */
+  useEffect(() => {
+    fetchproductStatus();
+  }, []);
+
+  const fetchproductStatus = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const status = await ProductService.getProductStatus(token);
+      setproductStatus(status);
+    } catch (error) {
+      console.log("Error fetching Product Categories" + error);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -60,6 +125,20 @@ export default function EditProduct() {
       ...prevProductData,
       [name]: value,
     }));
+  };
+
+  const handleCategoryChange = (e) => {
+    const { value } = e.target;
+    setSelectedCategory(value);
+  };
+  const handleBrandChange = (e) => {
+    const { value } = e.target;
+    setselectedBrand(value);
+  };
+
+  const handleStatushange = (e) => {
+    const { value } = e.target;
+    setselectedStatus(value);
   };
 
   const handleSubmit = async (e) => {
@@ -71,9 +150,29 @@ export default function EditProduct() {
 
       if (confirmUpdate) {
         const token = localStorage.getItem("token");
+
+        const formData = new FormData();
+        formData.append("productName", productData.productName);
+        formData.append("productStock", productData.productStock);
+        formData.append("productPrice", productData.productPrice);
+        formData.append("productDescription", productData.productDescription);
+        formData.append(
+          "productBrand",
+          selectedBrand ? selectedBrand : productData.productBrand
+        );
+        formData.append(
+          "productCategory",
+          selectedCategory ? selectedCategory : productData.productCategory
+        );
+        formData.append(
+          "productStatus",
+          selectedStatus ? selectedStatus : productData.productStatus
+        );
+        console.log("formData :" + formData.getAll);
+
         const res = await ProductService.updateProduct(
           productID,
-          productData,
+          formData,
           token
         );
         console.log(res);
@@ -141,55 +240,64 @@ export default function EditProduct() {
                   />
                 </div>
                 <div className="w-full px-2 md:w-1/2">
-                  <label className="block mb-2">Product Category</label>
-
-                  <select
-                    name="productCategory"
-                    value={productData.productCategory}
-                    onChange={handleInputChange}
-                    className="w-full p-2 border rounded"
-                    required
-                  >
-                    <option
-                      value=""
-                      class="block px-4 py-2 text-sm text-gray-700"
-                    >
-                      Select
-                    </option>
-                    <option
-                      value="ELECTRONIC_ACCESSORIES"
-                      class="block px-4 py-2 text-sm text-gray-700"
-                    >
-                      ELECTRONIC_ACCESSORIES
-                    </option>
-                    <option
-                      value="HOME_APPLIANCES"
-                      class="block px-4 py-2 text-sm text-gray-700"
-                    >
-                      HOME_APPLIANCES
-                    </option>
-                    <option
-                      value="other"
-                      class="block px-4 py-2 text-sm text-gray-700"
-                    >
-                      Other
-                    </option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap -mx-2">
-                <div className="w-full px-2 md:w-1/2">
                   <label className="block mb-2">Qty</label>
                   <input
                     type="number"
                     name="productStock"
-                    className="w-full p-2 border rounded "
+                    className="w-full p-2 border rounded"
                     value={productData.productStock}
                     onChange={handleInputChange}
                     required
                   />
                 </div>
+              </div>
+
+              <div className="flex flex-wrap -mx-2">
+                <div className="w-full px-2 md:w-1/2">
+                  <label className="block mb-2">Product Category</label>
+                  <select
+                    value={
+                      selectedCategory
+                        ? selectedCategory
+                        : productData.productCategory
+                    }
+                    onChange={handleCategoryChange}
+                    className="w-full p-2 border rounded"
+                    required
+                  >
+                    <option value="" disabled>
+                      Select a Category
+                    </option>
+                    {productCategories.map((productCategory, index) => (
+                      <option key={index} value={productCategory}>
+                        {productCategory}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="w-full px-2 md:w-1/2">
+                  <label className="block mb-2">Brand</label>
+                  <select
+                    value={
+                      selectedBrand ? selectedBrand : productData.productBrand
+                    }
+                    onChange={handleBrandChange}
+                    className="w-full p-2 border rounded"
+                    required
+                  >
+                    <option value="" disabled>
+                      Select a Brand
+                    </option>
+                    {productBrands.map((brand, index) => (
+                      <option key={index} value={brand}>
+                        {brand}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap -mx-2">
                 <div className="w-full px-2 md:w-1/2">
                   <label className="block mb-2">Price</label>
                   <input
@@ -201,6 +309,44 @@ export default function EditProduct() {
                     required
                   />
                 </div>
+                <div className="w-full px-2 md:w-1/2">
+                  <label className="block mb-2">Product Status</label>
+                  <select
+                    value={
+                      selectedStatus
+                        ? selectedStatus
+                        : productData.productStatus
+                    }
+                    onChange={handleStatushange}
+                    className="w-full p-2 border rounded"
+                    required
+                  >
+                    <option value="" disabled>
+                      Select Status
+                    </option>
+                    {productStatus.map((status, index) => (
+                      <option key={index} value={status}>
+                        {status}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="mt-4"></div>
+              <div className="mt-4">
+                <label className="block mb-2">Product Description</label>
+                <textarea
+                  name="productDescription"
+                  className="w-full p-2 overflow-hidden border rounded resize-none"
+                  value={productData.productDescription}
+                  onChange={(e) => {
+                    handleInputChange(e);
+                    e.target.style.height = "auto";
+                    e.target.style.height = `${e.target.scrollHeight}px`;
+                  }}
+                  required
+                  rows="2"
+                />
               </div>
             </div>
             <br />
