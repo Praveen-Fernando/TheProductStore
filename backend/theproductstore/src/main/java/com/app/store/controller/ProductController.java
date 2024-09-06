@@ -21,6 +21,56 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+
+    /* Public's Control */
+
+    @GetMapping("/public/products")
+    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String productName) {
+
+        try{
+            return new ResponseEntity<>(productService.findAllProducts(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("/public/products/{productCategory}")
+    public ResponseEntity<List<Product>> getProductByCategory(@PathVariable(value= "productCategory") ProductCategoryTypes productCategory) {
+        try{
+            return new ResponseEntity<>(productService.findByProductCategory(productCategory), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/public/saleProducts")
+    public ResponseEntity<List<Product>> getAllSaleProducts(ProductStatus productStatus) {
+
+        try{
+            System.out.println("in");
+
+            return new ResponseEntity<>(productService.findByProductStatus(productStatus), HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println("Out"+e);
+
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/public/{productID}")
+    public ResponseEntity<Product> getSingleProductById(@PathVariable("productID") long productID) {
+        Optional<Product> productData = productService.findByProductID(productID);
+
+        if (productData.isPresent()) {
+            return new ResponseEntity<>(productData.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /* Seller's Control */
+
     @GetMapping("/seller/productCategories")
     public ProductCategoryTypes[] getCategories(){
         return ProductCategoryTypes.values();
@@ -34,16 +84,6 @@ public class ProductController {
     @GetMapping("/seller/productStatus")
     public ProductStatus[] getStatus(){
         return ProductStatus.values();
-    }
-
-    @GetMapping("/public/products")
-    public ResponseEntity<List<Product>> getAllProducts(@RequestParam(required = false) String productName) {
-
-        try{
-            return new ResponseEntity<>(productService.findAllProducts(), HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
     }
 
     @GetMapping("/seller/myproducts")
@@ -67,18 +107,6 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-
-    @GetMapping("/public/products/{productCategory}")
-    public ResponseEntity<List<Product>> getProductByCategory(@PathVariable(value= "productCategory") ProductCategoryTypes productCategory) {
-        try{
-            return new ResponseEntity<>(productService.findByProductCategory(productCategory), HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /* Seller Control */
 
     @PostMapping("/seller/addproduct")
     public ResponseEntity<Product> createNewProduct(@ModelAttribute Product product,

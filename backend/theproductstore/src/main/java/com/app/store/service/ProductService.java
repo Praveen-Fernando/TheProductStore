@@ -2,6 +2,7 @@ package com.app.store.service;
 
 import com.app.store.configuration.JWTUtils;
 import com.app.store.enums.ProductCategoryTypes;
+import com.app.store.enums.ProductStatus;
 import com.app.store.exceptions.ResourceNotFoundException;
 import com.app.store.model.Product;
 import com.app.store.model.ProductImage;
@@ -76,6 +77,14 @@ public class ProductService implements ProductServiceImpl {
         return productList;
     }
 
+    @Override
+    public List<Product> findByProductStatus(ProductStatus productStatus) {
+        List<Product> saleProductList = new ArrayList<>();
+        saleProductList.addAll(productRepository.findByProductStatus(ProductStatus.SALE));
+        System.out.println(saleProductList);
+        return saleProductList;
+    }
+
 
     public Product createProduct(Product product, MultipartFile[] files) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -131,6 +140,7 @@ public class ProductService implements ProductServiceImpl {
         currentproduct.setProductStatus(product.getProductStatus());
         Date date = new Date();
         currentproduct.setProductUpdateDate(date);
+        System.out.println("From Product Controller:" +product.getProductStatus());
 
         return productRepository.save(currentproduct);
     }

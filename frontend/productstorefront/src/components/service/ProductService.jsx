@@ -125,10 +125,45 @@ export class ProductService {
     }
   }
 
+  // Public Access Control
+
+  static async getSingleProductById(productID) {
+    try {
+      const response = await axios.get(
+        `${ProductService.BASE_URL}/public/${productID}`
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async getAllProducts() {
     try {
       const response = await axios.get(
-        `${ProductService.BASE_URL}public/products`
+        `${ProductService.BASE_URL}/public/products`
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getAllProductImages() {
+    try {
+      const response = await axios.get(
+        `${ProductService.BASE_URL}/public/images/{filename:.+}`
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getAllSaleProducts() {
+    try {
+      const response = await axios.get(
+        `${ProductService.BASE_URL}/public/saleProducts`
       );
       return response.data;
     } catch (error) {

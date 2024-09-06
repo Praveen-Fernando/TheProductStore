@@ -2,11 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Authentication from "../../auth/Authentication";
 import { ProductService } from "../../service/ProductService";
-import { useAlert } from "react-alert";
-import {
-  TopRightAlertContext,
-  options,
-} from "../../sub-components/AlertProviderWrapper";
 
 export default function AddProduct() {
   const { profileInfo } = Authentication();
@@ -17,8 +12,6 @@ export default function AddProduct() {
   const [selectedBrand, setselectedBrand] = useState("");
   const [productStatus, setproductStatus] = useState([]);
   const [selectedStatus, setselectedStatus] = useState("");
-  const alert = useAlert();
-  const topRightAlert = useAlert(TopRightAlertContext);
   const [productformData, setProductFormData] = useState({
     productName: "",
     productStock: "",
@@ -117,15 +110,10 @@ export default function AddProduct() {
 
       await ProductService.addProduct(formData, token);
       navigate("/productStore");
-      insertAlert();
     } catch (error) {
       console.log("Error Adding product: " + error);
       alert("An error occurred while adding the product");
     }
-  };
-
-  const insertAlert = () => {
-    topRightAlert.show("Product Added!", options);
   };
 
   return (

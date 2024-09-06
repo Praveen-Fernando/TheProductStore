@@ -2,18 +2,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import Authentication from "../../auth/Authentication";
 import { UserService } from "../../service/UserService";
 import { useEffect, useState } from "react";
-import { useAlert } from "react-alert";
-import {
-  TopRightAlertContext,
-  options,
-} from "../../sub-components/AlertProviderWrapper";
 
 export default function EditProfile() {
   const { profileInfo } = Authentication();
   const navigate = useNavigate();
   const { token } = useParams();
-  const alert = useAlert();
-  const topRightAlert = useAlert(TopRightAlertContext);
 
   const [userData, setUserData] = useState({
     name: "",
@@ -65,16 +58,11 @@ export default function EditProfile() {
         console.log(res);
         // Redirect to profile page or display a success message
         navigate("/profile");
-        updateAlert();
       }
     } catch (error) {
       console.error("Error updating user profile:", error);
       alert(error);
     }
-  };
-
-  const updateAlert = () => {
-    topRightAlert.show("Profile Updated!", options);
   };
 
   return (

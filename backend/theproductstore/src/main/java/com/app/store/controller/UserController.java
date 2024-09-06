@@ -1,7 +1,6 @@
 package com.app.store.controller;
 
 import com.app.store.enums.Gender;
-import com.app.store.enums.ProductCategoryTypes;
 import com.app.store.model.ReqRes;
 import com.app.store.model.User;
 import com.app.store.service.UserManagementService;
@@ -10,12 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.HashMap;
 
-@RestController
 @CrossOrigin(origins = "http://localhost:5173")
+@RestController
 @RequestMapping("/")
 public class UserController {
 
@@ -27,6 +24,7 @@ public class UserController {
         return Gender.values();
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/auth/register")
     public ResponseEntity<ReqRes> register(@RequestBody ReqRes req){
         return ResponseEntity.ok(userManagementService.register(req));

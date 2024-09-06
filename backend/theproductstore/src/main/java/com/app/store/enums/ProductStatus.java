@@ -4,7 +4,7 @@ public enum ProductStatus {
 
     ACTIVE("ACTIVE"),
     OUT_OF_STOCK("OUT_OF_STOCK"),
-    PENDING("PENDING"),
+    SALE("SALE"),
     COMING_SOON("COMING_SOON");
     String value;
 

@@ -2,11 +2,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Authentication from "../../auth/Authentication";
 import { ProductService } from "../../service/ProductService";
-import { useAlert } from "react-alert";
-import {
-  TopRightAlertContext,
-  options,
-} from "../../sub-components/AlertProviderWrapper";
 
 export default function EditProduct() {
   const { profileInfo } = Authentication();
@@ -18,8 +13,6 @@ export default function EditProduct() {
   const [selectedBrand, setselectedBrand] = useState("");
   const [productStatus, setproductStatus] = useState([]);
   const [selectedStatus, setselectedStatus] = useState("");
-  const alert = useAlert();
-  const topRightAlert = useAlert(TopRightAlertContext);
 
   const [productData, setProductData] = useState({
     productName: "",
@@ -168,7 +161,7 @@ export default function EditProduct() {
           "productStatus",
           selectedStatus ? selectedStatus : productData.productStatus
         );
-        console.log("formData :" + formData.getAll);
+        console.log("formData :" + formData);
 
         const res = await ProductService.updateProduct(
           productID,
@@ -178,16 +171,11 @@ export default function EditProduct() {
         console.log(res);
         // Redirect to profile page or display a success message
         navigate("/productStore");
-        updateAlert();
       }
     } catch (error) {
       console.error("Error updating user profile:", error);
       alert(error);
     }
-  };
-
-  const updateAlert = () => {
-    topRightAlert.show("Product Updated!", options);
   };
 
   const deleteProduct = async (productID) => {
@@ -200,15 +188,10 @@ export default function EditProduct() {
         const token = localStorage.getItem("token");
         await ProductService.deleteProduct(productID, token);
         navigate("/productStore");
-        deleteAlert();
       }
     } catch (error) {
       console.error("Error deleting user:", error);
     }
-  };
-
-  const deleteAlert = () => {
-    topRightAlert.show("Product Deleted!", options);
   };
 
   return (
