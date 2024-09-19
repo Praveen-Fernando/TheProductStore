@@ -1,10 +1,15 @@
-// CartPage.js
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CartContext } from "./CartContext";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import Authentication from "../auth/Authentication";
+import { UserService } from "../service/UserService";
+import { ProductService } from "../service/ProductService";
 
 const CartPage = () => {
   const { cart, setCart } = useContext(CartContext);
+  const [loading, setLoading] = useState(false);
+  const { isAuthenticated } = Authentication();
+  const navigate = useNavigate();
 
   const handleDelete = (productID) => {
     // Filter out the product to delete
@@ -16,7 +21,42 @@ const CartPage = () => {
     return total + product.productPrice * (product.quantity || 1);
   }, 0);
 
+  const handleConfirmOrder = async () => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    } else {
+      console.log("Authenticated");
+      const token = localStorage.getItem("token");
+      const orderData = cart.map((product) => ({
+        productID: product.productID,
+        quantity: product.quantity,
+      }));
 
+      // Correct payload structure
+      const payload = {
+        products: orderData,
+        totalAmount: totalAmount,
+        jwtToken: token,
+      };
+
+      console.log("Payload being sent:", payload);
+
+      try {
+        setLoading(true); // Set loading state to true
+
+        // Call the OrderProduct method
+        const response = await ProductService.OrderProduct(payload, token);
+        console.log("Order confirmed:", response);
+
+        navigate("/payment");
+      } catch (error) {
+        console.error("Error confirming order:", error);
+        // Handle error (e.g., show an error message)
+      } finally {
+        setLoading(false); // Set loading state back to false
+      }
+    }
+  };
 
   return (
     <div className="p-4 ml-auto mr-auto max-w-7xl">
@@ -92,10 +132,7 @@ const CartPage = () => {
               <div className="flex justify-end mt-2">
                 <button
                   className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-600"
-                  onClick={() => {
-                    // Handle order confirmation logic here
-                    alert("Order confirmed!");
-                  }}
+                  onClick={() => handleConfirmOrder()}
                 >
                   Confirm Order
                 </button>

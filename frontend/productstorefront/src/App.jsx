@@ -34,6 +34,7 @@ import ProductWall from "./components/userspage/ProductWall";
 import ProductDetails from "./components/userspage/ProductDetails";
 import CartPage from "./components/userspage/Cart";
 import { CartProvider } from "./components/userspage/CartContext";
+import Payment from "./components/userspage/Payment";
 
 function App() {
   const { isAuthenticated } = Authentication();
@@ -86,6 +87,7 @@ function App() {
               <Route path="/myReturns" element={<MyReturns />} />
               <Route path="/myReviews" element={<MyReviews />} />
               <Route path="/myWishlist" element={<MyWishlist />} />
+              <Route path="/payment" element={<Payment />} />
 
               {UserService.adminOnly() && (
                 <>

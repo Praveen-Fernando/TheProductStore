@@ -126,12 +126,11 @@ export class ProductService {
   }
 
   // Order Service
-  static async OrderProduct(productID, productQuantity, token) {
+  static async OrderProduct(payload, token) {
     try {
       const response = await axios.post(
         `${ProductService.BASE_URL}/auth/buy`,
-        productID,
-        productQuantity,
+        payload,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

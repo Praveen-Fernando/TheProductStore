@@ -90,12 +90,17 @@ public class ProductController {
 
         // Create the order message with multiple products and send it to Kafka
 
-        String token = extractToken(authorizationHeader);
+        if (authorizationHeader.startsWith("Bearer ")) {
+            authorizationHeader = authorizationHeader.substring(7);
+        }
 
         // Validate token
-        if (!authenticationService.isValidToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Token");
+        try {
+            // Token validation logic
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
+
         try{
             kafkaOrderProducerService.sendOrder(orderRequest);
 

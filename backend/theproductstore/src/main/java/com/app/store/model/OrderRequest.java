@@ -11,6 +11,6 @@ import java.util.List;
 @ToString
 public class OrderRequest {
     private List<OrderItem> products;
-    private long totalAmount;
+    private double totalAmount;
     private String jwtToken;
 }

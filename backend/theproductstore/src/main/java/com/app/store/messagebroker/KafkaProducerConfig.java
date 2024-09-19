@@ -2,10 +2,7 @@ package com.app.store.messagebroker;
 
 import com.app.store.model.OrderRequest;
 import jakarta.annotation.PostConstruct;
-import org.apache.kafka.clients.admin.AdminClient;
-import org.apache.kafka.clients.admin.AdminClientConfig;
-import org.apache.kafka.clients.admin.DeleteTopicsResult;
-import org.apache.kafka.clients.admin.ListTopicsResult;
+import org.apache.kafka.clients.admin.*;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -22,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Configuration
 public class KafkaProducerConfig {
@@ -29,12 +27,18 @@ public class KafkaProducerConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
     private boolean topicsDeleted = false;
+    private boolean consumerGroupsDeleted = false;
 
     @PostConstruct
     public void init() throws ExecutionException, InterruptedException {
         if (!topicsDeleted) {
             deleteAllTopics();
             topicsDeleted = true;
+        }
+
+        if (!consumerGroupsDeleted) {
+            deleteAllConsumerGroups();
+            consumerGroupsDeleted = true;
         }
     }
 
@@ -53,8 +57,6 @@ public class KafkaProducerConfig {
     }
 
 
-
-
     private void deleteAllTopics() throws ExecutionException, InterruptedException {
         // Create AdminClient
         Map<String, Object> adminProps = Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -70,6 +72,27 @@ public class KafkaProducerConfig {
                 System.out.println("Deleted topics: " + topicNames);
             } else {
                 System.out.println("No topics to delete.");
+            }
+        }
+    }
+
+    private void deleteAllConsumerGroups() throws ExecutionException, InterruptedException {
+        // Create AdminClient
+        Map<String, Object> adminProps = Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        try (AdminClient adminClient = AdminClient.create(adminProps)) {
+            // List all consumer groups
+            ListConsumerGroupsResult listConsumerGroupsResult = adminClient.listConsumerGroups();
+            Set<String> groupIds = listConsumerGroupsResult.all().get().stream()
+                    .map(ConsumerGroupListing::groupId)
+                    .collect(Collectors.toSet());
+
+            // Delete all consumer groups
+            if (!groupIds.isEmpty()) {
+                DeleteConsumerGroupsResult deleteGroupsResult = adminClient.deleteConsumerGroups(groupIds);
+                deleteGroupsResult.all().get(); // Wait until all groups are deleted
+                System.out.println("Deleted consumer groups: " + groupIds);
+            } else {
+                System.out.println("No consumer groups to delete.");
             }
         }
     }
