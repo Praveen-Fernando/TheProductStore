@@ -32,105 +32,116 @@ import ProductStore from "./components/userspage/seller/ProductStore";
 import SellerRecentOrders from "./components/userspage/seller/SellerRecentOrders";
 import ProductWall from "./components/userspage/ProductWall";
 import ProductDetails from "./components/userspage/ProductDetails";
+import CartPage from "./components/userspage/Cart";
+import { CartProvider } from "./components/userspage/CartContext";
 
 function App() {
   const { isAuthenticated } = Authentication();
 
   return (
-    <BrowserRouter>
-      <div>
-        {/* Header Section*/}
-        {isAuthenticated ? (
-          UserService.buyerOnly() ? (
-            <PublicHeader />
-          ) : UserService.adminOnly() ? (
-            ""
-          ) : (
-            <AuthenticatedHeader />
-          )
-        ) : (
-          <PublicHeader />
-        )}
-
-        {/* Body Section*/}
+    <CartProvider>
+      <BrowserRouter>
         <div>
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route exact path="/Unauthorized" element={<Unauthorized />} />
-            <Route path="*" element={<NotFound404 />} />
-            <Route exact path="/aboutus" element={<AboutUs />} />
-            <Route exact path="/contactus" element={<ContactUs />} />
-            <Route exact path="/productswall" element={<ProductWall />} />
-            <Route
-              path="/viewproduct/:productID"
-              element={<ProductDetails />}
-            />
-
-            {/* User Account login/Registraion */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Registration />} />
-
-            {/* Seller Registration */}
-            <Route path="/sellerregister" element={<SellerRegistration />} />
-
-            {/* User Account  */}
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/update-user/:token" element={<EditProfile />} />
-            <Route path="/manageprofile" element={<ManageAccount />} />
-            <Route path="/points" element={<Points />} />
-            <Route path="/myRecentOrders" element={<BuyerRecentOrders />} />
-            <Route path="/myReturns" element={<MyReturns />} />
-            <Route path="/myReviews" element={<MyReviews />} />
-            <Route path="/myWishlist" element={<MyWishlist />} />
-
-            {UserService.adminOnly() && (
-              <>
-                <Route
-                  path="/admin/user-management"
-                  element={<UserManagement />}
-                />
-                <Route path="/adminpanel" element={<AdminPanel />} />
-                <Route path="/update-user/:userId" element={<EditProfile />} />
-              </>
-            )}
-
-            {UserService.sellerOnly() && (
-              <>
-                <Route
-                  path="/admin/user-management"
-                  element={<UserManagement />}
-                />
-                {/* <Route path="/LoggedUser" element={<Contents />} /> */}
-                <Route path="/productStore" element={<ProductStore />} />
-                <Route path="/recentOrders" element={<SellerRecentOrders />} />
-                <Route path="/clientReturns" element={<ClientReturns />} />
-                <Route path="/clientReviews" element={<ClientReviews />} />
-                <Route path="/seller/addproduct" element={<AddProduct />} />
-                <Route
-                  path="/editproduct/:productID"
-                  element={<EditProduct />}
-                />
-              </>
-            )}
-            {/* {UserService.buyerOnly() && <></>} */}
-          </Routes>
-        </div>
-
-        {/* Footer Section*/}
-
-        {isAuthenticated ? (
-          UserService.buyerOnly() ? (
-            <PublicFooter />
-          ) : UserService.adminOnly() ? (
-            ""
+          {/* Header Section*/}
+          {isAuthenticated ? (
+            UserService.buyerOnly() ? (
+              <PublicHeader />
+            ) : UserService.adminOnly() ? (
+              ""
+            ) : (
+              <AuthenticatedHeader />
+            )
           ) : (
-            <AuthenticatedFooter />
-          )
-        ) : (
-          <PublicFooter />
-        )}
-      </div>
-    </BrowserRouter>
+            <PublicHeader />
+          )}
+
+          {/* Body Section*/}
+          <div>
+            <Routes>
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/Unauthorized" element={<Unauthorized />} />
+              <Route path="*" element={<NotFound404 />} />
+              <Route exact path="/aboutus" element={<AboutUs />} />
+              <Route exact path="/contactus" element={<ContactUs />} />
+              <Route exact path="/productswall" element={<ProductWall />} />
+              <Route
+                path="/viewproduct/:productID"
+                element={<ProductDetails />}
+              />
+              <Route path="/cart" element={<CartPage />} />
+
+              {/* User Account login/Registraion */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Registration />} />
+
+              {/* Seller Registration */}
+              <Route path="/sellerregister" element={<SellerRegistration />} />
+
+              {/* User Account  */}
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/update-user/:token" element={<EditProfile />} />
+              <Route path="/manageprofile" element={<ManageAccount />} />
+              <Route path="/points" element={<Points />} />
+              <Route path="/myRecentOrders" element={<BuyerRecentOrders />} />
+              <Route path="/myReturns" element={<MyReturns />} />
+              <Route path="/myReviews" element={<MyReviews />} />
+              <Route path="/myWishlist" element={<MyWishlist />} />
+
+              {UserService.adminOnly() && (
+                <>
+                  <Route
+                    path="/admin/user-management"
+                    element={<UserManagement />}
+                  />
+                  <Route path="/adminpanel" element={<AdminPanel />} />
+                  <Route
+                    path="/update-user/:userId"
+                    element={<EditProfile />}
+                  />
+                </>
+              )}
+
+              {UserService.sellerOnly() && (
+                <>
+                  <Route
+                    path="/admin/user-management"
+                    element={<UserManagement />}
+                  />
+                  {/* <Route path="/LoggedUser" element={<Contents />} /> */}
+                  <Route path="/productStore" element={<ProductStore />} />
+                  <Route
+                    path="/recentOrders"
+                    element={<SellerRecentOrders />}
+                  />
+                  <Route path="/clientReturns" element={<ClientReturns />} />
+                  <Route path="/clientReviews" element={<ClientReviews />} />
+                  <Route path="/seller/addproduct" element={<AddProduct />} />
+                  <Route
+                    path="/editproduct/:productID"
+                    element={<EditProduct />}
+                  />
+                </>
+              )}
+              {/* {UserService.buyerOnly() && <></>} */}
+            </Routes>
+          </div>
+
+          {/* Footer Section*/}
+
+          {isAuthenticated ? (
+            UserService.buyerOnly() ? (
+              <PublicFooter />
+            ) : UserService.adminOnly() ? (
+              ""
+            ) : (
+              <AuthenticatedFooter />
+            )
+          ) : (
+            <PublicFooter />
+          )}
+        </div>
+      </BrowserRouter>
+    </CartProvider>
   );
 }
 

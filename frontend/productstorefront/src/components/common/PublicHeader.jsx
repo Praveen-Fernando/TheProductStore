@@ -3,9 +3,17 @@ import LoggedComponent from "../auth/LoggedComponent";
 import LoginComponent from "../auth/LoginComponent";
 import Authentication from "../auth/Authentication";
 import { FaShoppingCart } from "react-icons/fa";
+import { CartContext } from "../userspage/CartContext";
+import { useContext } from "react";
 
 export default function PublicHeader() {
   const { isAuthenticated, handleLogout } = Authentication();
+  const { cart } = useContext(CartContext);
+  // const itemCount = cart.reduce(
+  //   (total, product) => total + (product.quantity || 1),
+  //   0
+  // );
+  console.log(cart.length);
 
   return (
     <div class="bg-white border-gray-200 dark:bg-gray-900 p-4">
@@ -48,7 +56,15 @@ export default function PublicHeader() {
           <div class="flex flex-wrap justify-between pr-2">
             {isAuthenticated ? <LoggedComponent /> : <LoginComponent />}
             <div style={{ color: "white", marginTop: "2px" }}>
-              <FaShoppingCart size={25} />
+              <Link to="/cart">
+                <button className="relative flex items-center p-2 text-white hover:bg-blue-600">
+                  <FaShoppingCart className="text-xl" />
+                  {/* Add cart item count */}
+                  <span className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -m-2 text-xs text-white bg-red-600 rounded-full">
+                    {cart.length}
+                  </span>
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -82,7 +98,15 @@ export default function PublicHeader() {
           <div className="flex items-center space-x-4">
             {isAuthenticated ? <LoggedComponent /> : <LoginComponent />}
             <div style={{ color: "white" }}>
-              <FaShoppingCart size={23} />
+              <Link to="/cart">
+                <button className="relative flex items-center p-2 text-white hover:bg-blue-600">
+                  <FaShoppingCart className="text-xl" />
+                  {/* Add cart item count */}
+                  <span className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -m-2 text-xs text-white bg-red-600 rounded-full">
+                    {cart.length}
+                  </span>
+                </button>
+              </Link>
             </div>
           </div>
         </div>

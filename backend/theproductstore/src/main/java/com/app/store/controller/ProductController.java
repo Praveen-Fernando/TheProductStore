@@ -1,17 +1,26 @@
 package com.app.store.controller;
 
+import com.app.store.configuration.AuthenticationService;
+import com.app.store.configuration.JWTUtils;
 import com.app.store.enums.Brands;
 import com.app.store.enums.ProductCategoryTypes;
 import com.app.store.enums.ProductStatus;
+import com.app.store.messagebroker.KafkaOrderProducerService;
+import com.app.store.model.OrderItem;
+import com.app.store.model.OrderRequest;
 import com.app.store.model.Product;
 import com.app.store.service.ProductService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -20,6 +29,11 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    AuthenticationService authenticationService;
+    @Autowired
+    KafkaOrderProducerService kafkaOrderProducerService;
 
 
     /* Public's Control */
@@ -67,6 +81,37 @@ public class ProductController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/auth/buy")
+    public ResponseEntity<String> buyNow(
+            @RequestBody OrderRequest orderRequest,
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        // Create the order message with multiple products and send it to Kafka
+
+        String token = extractToken(authorizationHeader);
+
+        // Validate token
+        if (!authenticationService.isValidToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Token");
+        }
+        try{
+            kafkaOrderProducerService.sendOrder(orderRequest);
+
+        }catch (Exception e){
+            System.out.println("Exception From controller: "+e);
+        }
+
+        return ResponseEntity.ok("Order placed successfully!");
+    }
+
+    // Method to extract token from Authorization header
+    private String extractToken(String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring(7); // Remove "Bearer " prefix
+        }
+        return authorizationHeader; // Return as is if no prefix
     }
 
     /* Seller's Control */

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductService } from "../service/ProductService";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -7,10 +7,12 @@ import {
   FaSyncAlt,
   FaShieldAlt,
 } from "react-icons/fa";
+import { CartContext } from "./CartContext";
 
 export default function ProductDetails() {
   //const [mainImage, setMainImage] = useState(product.images[0]);
-  const [productDetails, setProductDetails] = useState([]);
+  const [quantity, setQuantity] = useState(1); // Default quantity is 1
+  const { cart, setCart } = useContext(CartContext);
   const { productID } = useParams();
   const [productData, setProductData] = useState({
     productName: "",
@@ -27,24 +29,13 @@ export default function ProductDetails() {
     setMainImage(imageUrl);
   };
 
-  //   const handleQuantityChange = (event) => {
-  //     setQuantity(Number(event.target.value));
-  //   };
-
-  //   const handleOrder = () => {
-  //     // Implement order logic here
-  //     alert(`Ordered ${quantity} of ${product.name}`);
-  //   };
-
   useEffect(() => {
     fetcProductDetails(productID);
   }, [productID]);
 
   const fetcProductDetails = async (productID) => {
     try {
-      const productDetails = await ProductService.getSingleProductById(
-        productID
-      );
+      const prodDetails = await ProductService.getSingleProductById(productID);
 
       const {
         productName,
@@ -57,8 +48,8 @@ export default function ProductDetails() {
         productStatus,
         sellerEmail,
         productImages: [],
-      } = productDetails;
-      console.log(productDetails.data);
+      } = prodDetails;
+      console.log(prodDetails.data);
 
       setProductData({
         productName,
@@ -72,13 +63,43 @@ export default function ProductDetails() {
         sellerEmail,
         productImages: [],
       });
-      console.log("Product data :" + productData);
-      setProductDetails(productDetails.data);
-      console.log(productDetails);
+      console.log("Product data :" + productData.productID);
     } catch (error) {
       console.log("Product Details Not Fetched : " + error);
     }
   };
+
+  const handleQuantityChange = (e) => {
+    const value = Math.max(Number(e.target.value), 1); // Ensure quantity is at least 1
+    setQuantity(value);
+  };
+
+  const handleAddToCart = () => {
+    const productWithQuantity = {
+      ...productData, // Keep product details
+      quantity, // Attach the current quantity
+      productID,
+    };
+
+    // Check if the product is already in the cart
+    const existingProduct = cart.find((item) => item.productID === productID);
+
+    if (existingProduct) {
+      // If the product exists, update its quantity
+      const updatedCart = cart.map((item) =>
+        item.productID === productID
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
+      );
+      setCart(updatedCart);
+    } else {
+      // If it's a new product, add it to the cart
+      setCart([...cart, productWithQuantity]);
+    }
+  };
+
+  console.log("productWithQuntity : " + productData.data);
+  console.log("quantity: " + quantity);
 
   return (
     <div>
@@ -204,19 +225,27 @@ export default function ProductDetails() {
           <div className="flex items-center my-4">
             <span className="mr-4 font-semibold text-gray-600">Quantity:</span>
             <input
+              id="quantity"
               type="number"
-              className="w-16 px-2 py-1 border"
               min="1"
-              defaultValue="1"
+              value={quantity}
+              onChange={handleQuantityChange}
+              className="px-2 py-1 border rounded"
             />
           </div>
 
           {/* Buy Now and Add to Cart buttons */}
           <div className="flex my-4 space-x-4">
-            <button className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600">
+            <button
+              onClick={handleAddToCart}
+              className="px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+            >
               Buy Now
             </button>
-            <button className="px-4 py-2 text-white bg-orange-500 rounded-md hover:bg-orange-600">
+            <button
+              onClick={handleAddToCart}
+              className="px-4 py-2 text-white bg-orange-500 rounded-md hover:bg-orange-600"
+            >
               Add to Cart
             </button>
           </div>

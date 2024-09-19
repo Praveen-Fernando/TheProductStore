@@ -126,11 +126,15 @@
 
 
 			<!-- Kafka Dependencies -->
-			<dependency>
-				<groupId>org.springframework.kafka</groupId>
-				<artifactId>spring-kafka</artifactId>
-				<version>2.9.0</version> <!-- Make sure to match your Spring Boot version -->
-			</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 			<!-- Jackson JSON dependency for message serialization -->
 			<dependency>

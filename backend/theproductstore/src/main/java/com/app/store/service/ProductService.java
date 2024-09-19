@@ -145,6 +145,12 @@ public class ProductService implements ProductServiceImpl {
         return productRepository.save(currentproduct);
     }
 
+    public void updateProductQuantity(Long id, int newQuantity) {
+        Product product = productRepository.findById(id).orElseThrow();
+        product.setProductStock(newQuantity);
+        productRepository.save(product);
+    }
+
     public void deleteProduct(long productID) {
         productRepository.deleteById(productID);
     }

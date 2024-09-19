@@ -125,6 +125,23 @@ export class ProductService {
     }
   }
 
+  // Order Service
+  static async OrderProduct(productID, productQuantity, token) {
+    try {
+      const response = await axios.post(
+        `${ProductService.BASE_URL}/auth/buy`,
+        productID,
+        productQuantity,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   // Public Access Control
 
   static async getSingleProductById(productID) {

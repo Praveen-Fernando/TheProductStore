@@ -1,45 +1,21 @@
 version: '3.8'
-
 services:
-  backend:
-    build:
-      context: ./backend/theproductstore
-      dockerfile: Dockerfile
-    ports:
-      - 8080:8080
-    networks:
-      - app-network
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/productstoredb
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
     depends_on:
-      - mysql
-
-  frontend:
-    build:
-      context: ./frontend/productstorefront
-      dockerfile: Dockerfile
+      - zookeeper
     ports:
-      - 5173:80
-    networks:
-      - app-network
-
-  mysql:
-    image: mysql:8.0
+      - "9092:9092"
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: productstoredb
-    ports:
-      - 3366:3306
-    networks:
-      - app-network
-    volumes:
-      - mysql-data:/var/lib/mysql
-
-networks:
-  app-network:
-    driver: bridge
-
-volumes:
-  mysql-data:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1

@@ -13,11 +13,6 @@ export default function ProductWall() {
     setFilter(event.target.value);
   };
 
-  // const handleProductClick = (product) => {
-  //   alert(`Viewing and purchasing ${product.productName}`);
-  //   // Implement navigation or purchase logic here
-  // };
-
   useEffect(() => {
     fetchAllProducts();
   }, []);
@@ -65,7 +60,7 @@ export default function ProductWall() {
               <div
                 key={product.productID}
                 onClick={() => handleProductClick(product)}
-                className="p-7 border rounded shadow-md cursor-pointer hover:bg-blue-100 "
+                className="border rounded shadow-md cursor-pointer p-7 hover:bg-blue-100 "
               >
                 <div className="relative w-full h-48">
                   {/* {product.productImages.map((image, index) => (
@@ -83,7 +78,7 @@ export default function ProductWall() {
                   <img
                     src="src/images/Sample-Product.png"
                     alt={product.productName}
-                    className="absolute top-0 left-0 w-full h-full object-cover rounded transition-opacity duration-300"
+                    className="absolute top-0 left-0 object-cover w-full h-full transition-opacity duration-300 rounded"
                   />
                 </div>
                 <h3 className="mt-2 text-lg font-bold">
